@@ -1,5 +1,6 @@
 import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import MySearch from "./MySearch";
 
 interface Props {
     navItems: string[];
@@ -27,7 +28,9 @@ const MyAppBar = ({ navItems, onMobileClick }: Props) => {
                 >
                     MUI
                 </Typography>
- 
+
+                <MySearch />
+
                 <Box sx={{ display: { xs: "none", sm: "block" } }}>
                     {navItems.map((item) => (
                         <Button key={item} sx={{ color: "#fff" }}>
