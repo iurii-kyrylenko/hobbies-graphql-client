@@ -2,7 +2,7 @@ import * as React from "react";
 import MyAppBar from "./components/MyAppBar";
 import MyDrawer from "./components/MyDrawer";
 import MyContent from "./components/MyContent";
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
 import MySpeedDial from "./components/MySpeedDial";
 
 const navItems = ["Home", "People"];
@@ -16,7 +16,7 @@ const App = () => {
 
     return (
         <Box>
-            <MyAppBar navItems={navItems} onMobileClick={handleMobileToggle} />
+            <MyAppBar onMobileClick={handleMobileToggle} />
             <MyDrawer navItems={navItems} open={mobileOpen} onClose={handleMobileToggle} />
             <MySpeedDial />
             <MyContent />

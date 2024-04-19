@@ -1,42 +1,36 @@
-import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import PersonIcon from "@mui/icons-material/Person";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import MySearch from "./MySearch";
 
 interface Props {
-    navItems: string[];
     onMobileClick: () => void;
 }
 
-const MyAppBar = ({ navItems, onMobileClick }: Props) => {
+const MyAppBar = ({ onMobileClick }: Props) => {
     return (
         <AppBar component="nav" position="sticky">
-            <Toolbar>
+            <Toolbar sx={{ justifyContent: "space-between", gap: "12px" }}>
                 <IconButton
                     color="inherit"
                     aria-label="open drawer"
                     edge="start"
                     onClick={onMobileClick}
-                    sx={{ mr: 2, display: { sm: "none" } }}
                 >
                     <MenuIcon />
                 </IconButton>
 
-                <Typography
-                    variant="h6"
-                    component="div"
-                    sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-                >
-                    MUI
-                </Typography>
+                <Typography textAlign="center">My Movies</Typography>
 
                 <MySearch />
 
-                <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                    {navItems.map((item) => (
-                        <Button key={item} sx={{ color: "#fff" }}>
-                            {item}
-                        </Button>
-                    ))}
+                <Box component="div" textAlign="center">
+                    <PersonIcon />
+                    <Typography fontSize="8pt">iurii123</Typography>
                 </Box>
             </Toolbar>
         </AppBar>

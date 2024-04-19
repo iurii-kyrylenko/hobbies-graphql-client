@@ -13,18 +13,17 @@ const MyDrawer = ({ navItems, open, onClose }: Props) => {
             open={open}
             onClose={onClose}
             ModalProps={{ keepMounted: true }}
-            PaperProps={{ sx: { width: "75%" } }}
-            sx={{ display: { xs: "block", sm: "none" } }}
+            PaperProps={{ sx: { width: { xs: "75%", sm: "25%" } } }}
         >
             <Box onClick={onClose} sx={{ textAlign: "center" }}>
                 <Typography variant="h6" sx={{ my: 2 }}>
-                    MUI
+                    MY HOBBIES
                 </Typography>
                 <Divider />
                 <List>
                     {navItems.map((item) => (
                         <ListItem key={item} disablePadding>
-                            <ListItemButton sx={{ textAlign: "center" }}>
+                            <ListItemButton sx={{ textAlign: "left" }}>
                                 <ListItemText primary={item} />
                             </ListItemButton>
                         </ListItem>
