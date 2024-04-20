@@ -24,13 +24,13 @@ const MyAppBar = ({ onMobileClick }: Props) => {
                     <MenuIcon />
                 </IconButton>
 
-                <Typography textAlign="center">My Movies</Typography>
+                <Typography textAlign="center">Page Name</Typography>
 
                 <MySearch />
 
                 <Box component="div" textAlign="center">
                     <PersonIcon />
-                    <Typography fontSize="8pt">iurii123</Typography>
+                    <Typography fontSize="8pt">user</Typography>
                 </Box>
             </Toolbar>
         </AppBar>

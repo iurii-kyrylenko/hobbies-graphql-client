@@ -1,12 +1,20 @@
 import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 interface Props {
-    navItems: string[];
     open: boolean;
     onClose: () => void;
 }
 
-const MyDrawer = ({ navItems, open, onClose }: Props) => {
+const LinkedListItem = ({ text, path }: { text: string, path: string }) => (
+    <ListItem key={text} disablePadding>
+        <ListItemButton sx={{ textAlign: "left" }}>
+            <Link to={path}><ListItemText primary={text} /></Link>
+        </ListItemButton>
+    </ListItem>
+);
+
+const MyDrawer = ({ open, onClose }: Props) => {
     return (
         <Drawer
             variant="temporary"
@@ -21,13 +29,9 @@ const MyDrawer = ({ navItems, open, onClose }: Props) => {
                 </Typography>
                 <Divider />
                 <List>
-                    {navItems.map((item) => (
-                        <ListItem key={item} disablePadding>
-                            <ListItemButton sx={{ textAlign: "left" }}>
-                                <ListItemText primary={item} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
+                    <LinkedListItem text="Home" path={""} />
+                    <LinkedListItem text="Movies" path={"movies"} />
+                    <LinkedListItem text="Error" path={"42"} />
                 </List>
             </Box>
         </Drawer>
