@@ -1,7 +1,9 @@
 :root {
     font-family: Roboto, sans-serif;
+    overscroll-behavior: none;
 }
 
 body {
     margin: 0;
+    overscroll-behavior: none;
 }
