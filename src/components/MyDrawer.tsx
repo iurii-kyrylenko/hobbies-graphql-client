@@ -30,6 +30,7 @@ const MyDrawer = ({ open, onClose }: Props) => {
                 <Divider />
                 <List>
                     <LinkedListItem text="Home" path={""} />
+                    <LinkedListItem text="Books" path={"books"} />
                     <LinkedListItem text="Movies" path={"movies"} />
                     <LinkedListItem text="Error" path={"42"} />
                 </List>

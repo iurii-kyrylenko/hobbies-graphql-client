@@ -8,10 +8,11 @@ import Typography from "@mui/material/Typography";
 import MySearch from "./MySearch";
 
 interface Props {
-    onMobileClick: () => void;
+    onDrawerClick: () => void;
+    onSearch: (search: string) => void;
 }
 
-const MyAppBar = ({ onMobileClick }: Props) => {
+const MyAppBar = ({ onDrawerClick, onSearch }: Props) => {
     return (
         <AppBar component="nav" position="sticky">
             <Toolbar sx={{ justifyContent: "space-between", gap: "12px" }}>
@@ -19,14 +20,14 @@ const MyAppBar = ({ onMobileClick }: Props) => {
                     color="inherit"
                     aria-label="open drawer"
                     edge="start"
-                    onClick={onMobileClick}
+                    onClick={onDrawerClick}
                 >
                     <MenuIcon />
                 </IconButton>
 
                 <Typography textAlign="center">Page Name</Typography>
 
-                <MySearch />
+                <MySearch onSearch={onSearch} />
 
                 <Box component="div" textAlign="center">
                     <PersonIcon />

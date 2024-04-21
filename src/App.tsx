@@ -1,23 +1,23 @@
-import * as React from "react";
+import { useState } from "react";
 import MyAppBar from "./components/MyAppBar";
 import MyDrawer from "./components/MyDrawer";
 import Box from "@mui/material/Box";
-import MySpeedDial from "./components/MySpeedDial";
 import { Outlet } from "react-router-dom";
+import MySpeedDial from "./components/MySpeedDial";
 
 const App = () => {
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [drawerOpen, setMobileOpen] = useState(false);
+    const [search, setSearch] = useState("");
 
-    const handleMobileToggle = () => {
-        setMobileOpen((prevState) => !prevState);
-    };
+    const handleDrawerToggle = () => setMobileOpen((prevState) => !prevState);
+    const handleSearch = (search: string) => setSearch(search);
 
     return (
         <Box>
-            <MyAppBar onMobileClick={handleMobileToggle} />
-            <MyDrawer open={mobileOpen} onClose={handleMobileToggle} />
+            <MyAppBar onDrawerClick={handleDrawerToggle} onSearch={handleSearch} />
+            <MyDrawer open={drawerOpen} onClose={handleDrawerToggle} />
             <MySpeedDial />
-            <Outlet />
+            <Outlet context={search}/>
         </Box>
     );
 };

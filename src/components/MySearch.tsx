@@ -1,9 +1,11 @@
+import { KeyboardEvent } from 'react';
 import { InputBase } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { alpha, styled } from "@mui/material/styles";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
+    [theme.breakpoints.down("sm")]: { width: "40%" },
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
     "&:hover": {
@@ -38,7 +40,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const MySearch = () => {
+interface MySearchProps {
+    onSearch: (search: string) => void;
+}
+
+const MySearch = ({ onSearch }: MySearchProps) => {
+    const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+        if(event.key === "Enter") {
+            onSearch(event.currentTarget.value);
+        }
+    };
+
     return (
         <Search>
             <SearchIconWrapper>
@@ -48,6 +60,7 @@ const MySearch = () => {
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
                 type="search"
+                onKeyDown={handleKeyDown}
             />
         </Search>
     );
