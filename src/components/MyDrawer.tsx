@@ -1,5 +1,5 @@
 import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Props {
     open: boolean;
@@ -15,6 +15,15 @@ const LinkedListItem = ({ text, path }: { text: string, path: string }) => (
 );
 
 const MyDrawer = ({ open, onClose }: Props) => {
+    const navigate = useNavigate();
+
+    // This is for testing
+    const handleLogout = () => {
+        console.log("logout");
+        localStorage.setItem("answer", "42");
+        navigate("/");
+    };
+
     return (
         <Drawer
             variant="temporary"
@@ -34,6 +43,14 @@ const MyDrawer = ({ open, onClose }: Props) => {
                     <LinkedListItem text="Movies" path={"movies"} />
                     <LinkedListItem text="Error" path={"42"} />
                 </List>
+
+                <Divider />
+                <ListItem key="Logout" disablePadding>
+                    <ListItemButton onClick={handleLogout} sx={{ textAlign: "left" }}>
+                        <ListItemText primary="Logout" />
+                    </ListItemButton>
+                </ListItem>
+
             </Box>
         </Drawer>
     );

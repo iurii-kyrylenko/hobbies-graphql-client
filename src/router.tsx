@@ -1,5 +1,5 @@
 import { Route, createRoutesFromElements, createBrowserRouter } from "react-router-dom";
-import App from "./App.tsx";
+import App from "./components/App.tsx";
 import Home from "./components/Home.tsx";
 import Books from "./components/Books.tsx";
 import Movies from "./components/Movies.tsx";
