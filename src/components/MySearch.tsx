@@ -1,7 +1,11 @@
-import { KeyboardEvent } from 'react';
+import { useState, useEffect, KeyboardEvent, ChangeEvent } from 'react';
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store";
+import { search  } from "../store/app-slice";
 import { InputBase } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { alpha, styled } from "@mui/material/styles";
+import { useLocation } from 'react-router-dom';
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -40,16 +44,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-interface MySearchProps {
-    onSearch: (search: string) => void;
-}
+const MySearch = () => {
+    const [value, setValue] = useState<string>("");
+    const dispatch: AppDispatch = useDispatch();
+    const location = useLocation();
 
-const MySearch = ({ onSearch }: MySearchProps) => {
+    useEffect(() => {
+        dispatch(search(""));
+        setValue("");
+    }, [location.pathname]);
+
     const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
         if(event.key === "Enter") {
-            onSearch(event.currentTarget.value);
+            dispatch(search(value));
         }
     };
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
+        setValue(event.currentTarget.value);
 
     return (
         <Search>
@@ -60,6 +72,8 @@ const MySearch = ({ onSearch }: MySearchProps) => {
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
                 type="search"
+                onChange={handleChange}
+                value={value}
                 onKeyDown={handleKeyDown}
             />
         </Search>

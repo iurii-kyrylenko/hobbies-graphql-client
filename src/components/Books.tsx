@@ -1,8 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import { useOutletContext } from "react-router-dom";
+import { RootState } from "../store";
+import { useSelector } from "react-redux";
 
 const Books = () => {
-    const search = useOutletContext<string>();
+    const search = useSelector((state: RootState) => state.search);
 
     return (
         <Box component="main" sx={{ p: 3 }}>

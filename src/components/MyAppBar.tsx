@@ -5,14 +5,28 @@ import MenuIcon from "@mui/icons-material/Menu";
 import PersonIcon from "@mui/icons-material/Person";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { useLocation } from "react-router-dom";
+import { RootState } from "../store";
+import { useSelector } from "react-redux";
 import MySearch from "./MySearch";
 
 interface Props {
     onDrawerClick: () => void;
-    onSearch: (search: string) => void;
 }
 
-const MyAppBar = ({ onDrawerClick, onSearch }: Props) => {
+const MyAppBar = ({ onDrawerClick }: Props) => {
+    const location = useLocation();
+    let pageName = "My Hobbies";
+    let isSearch = false;
+    switch (location.pathname) {
+        case "/books": pageName = "My Books"; isSearch = true; break;
+        case "/movies": pageName = "My Movies"; isSearch = true; break;
+    }
+
+    // TODO: Get user data from the token.
+    const token = useSelector((state: RootState) => state.token);
+    const user = token ? "user" : null;
+
     return (
         <AppBar component="nav" position="sticky">
             <Toolbar sx={{ justifyContent: "space-between", gap: "12px" }}>
@@ -25,13 +39,13 @@ const MyAppBar = ({ onDrawerClick, onSearch }: Props) => {
                     <MenuIcon />
                 </IconButton>
 
-                <Typography textAlign="center">Page Name</Typography>
+                <Typography textAlign="center">{pageName}</Typography>
 
-                <MySearch onSearch={onSearch} />
+                {isSearch && (<MySearch />)}
 
                 <Box component="div" textAlign="center">
                     <PersonIcon />
-                    <Typography fontSize="8pt">user</Typography>
+                    <Typography fontSize="8pt">{user}</Typography>
                 </Box>
             </Toolbar>
         </AppBar>

@@ -1,12 +1,17 @@
-import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import Typography from "@mui/material/Typography";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { AppDispatch, RootState } from "../store";
+import { login, logout } from "../store/app-slice";
 
-interface Props {
-    open: boolean;
-    onClose: () => void;
-}
-
-const LinkedListItem = ({ text, path }: { text: string, path: string }) => (
+const LinkedListItem = ({ text, path }: { text: string; path: string }) => (
     <ListItem key={text} disablePadding>
         <ListItemButton sx={{ textAlign: "left" }}>
             <Link to={path}><ListItemText primary={text} /></Link>
@@ -14,16 +19,58 @@ const LinkedListItem = ({ text, path }: { text: string, path: string }) => (
     </ListItem>
 );
 
-const MyDrawer = ({ open, onClose }: Props) => {
+/**
+ * FOR DEBUG ONLY!
+ */
+const LoginListItem = ({ text }: { text: string }) => {
     const navigate = useNavigate();
+    const dispatch: AppDispatch = useDispatch();
 
-    // This is for testing
+    const handleLogin = () => {
+        const token = "42";
+        localStorage.setItem("token", token);
+        dispatch(login(token));
+        navigate("");
+    };
+
+    return (
+        <ListItem key="Logout" disablePadding>
+            <ListItemButton onClick={handleLogin} sx={{ textAlign: "left" }}>
+                <ListItemText primary={text} />
+            </ListItemButton>
+        </ListItem>
+    );
+};
+
+/**
+ * FOR DEBUG ONLY!
+ */
+const LogoutListItem = ({ text }: { text: string }) => {
+    const navigate = useNavigate();
+    const dispatch: AppDispatch = useDispatch();
+
     const handleLogout = () => {
-        console.log("logout");
-        localStorage.setItem("answer", "42");
+        localStorage.removeItem("token");
+        dispatch(logout());
         navigate("/");
     };
 
+    return (
+        <ListItem key="Logout" disablePadding>
+            <ListItemButton onClick={handleLogout} sx={{ textAlign: "left" }}>
+                <ListItemText primary={text} />
+            </ListItemButton>
+        </ListItem>
+    );
+};
+
+interface Props {
+    open: boolean;
+    onClose: () => void;
+}
+
+const MyDrawer = ({ open, onClose }: Props) => {
+    const isAuthenticated = useSelector((state: RootState) => Boolean(state.token));
     return (
         <Drawer
             variant="temporary"
@@ -33,24 +80,23 @@ const MyDrawer = ({ open, onClose }: Props) => {
             PaperProps={{ sx: { width: { xs: "75%", sm: "25%" } } }}
         >
             <Box onClick={onClose} sx={{ textAlign: "center" }}>
-                <Typography variant="h6" sx={{ my: 2 }}>
-                    MY HOBBIES
-                </Typography>
+                <Typography variant="h6" sx={{ my: 2 }}>MY HOBBIES</Typography>
                 <Divider />
-                <List>
-                    <LinkedListItem text="Home" path={""} />
-                    <LinkedListItem text="Books" path={"books"} />
-                    <LinkedListItem text="Movies" path={"movies"} />
-                    <LinkedListItem text="Error" path={"42"} />
-                </List>
-
-                <Divider />
-                <ListItem key="Logout" disablePadding>
-                    <ListItemButton onClick={handleLogout} sx={{ textAlign: "left" }}>
-                        <ListItemText primary="Logout" />
-                    </ListItemButton>
-                </ListItem>
-
+                {isAuthenticated ?
+                    <List>
+                        <LinkedListItem text="Home" path={""} />
+                        <LinkedListItem text="Books" path={"books"} />
+                        <LinkedListItem text="Movies" path={"movies"} />
+                        <LinkedListItem text="Error" path={"42"} />
+                        <Divider />
+                        <LogoutListItem text="Logout" />
+                    </List> :
+                    <List>
+                        <LinkedListItem text="Home" path={""} />
+                        <LinkedListItem text="Error" path={"42"} />
+                        <Divider />
+                        <LoginListItem text="Login" />
+                    </List>}
             </Box>
         </Drawer>
     );
