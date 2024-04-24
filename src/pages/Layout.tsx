@@ -12,12 +12,9 @@ const Layout = () => {
     const dispatch: AppDispatch = useDispatch();
     const handleToggleDrawer = () => dispatch(toggleDrawer());
 
-    // TODO: Check for token expiration.
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (token) {
-            dispatch(login(token));
-        }
+        dispatch(login(token));
     }, [dispatch]);
 
     const { pathname } = useLocation();

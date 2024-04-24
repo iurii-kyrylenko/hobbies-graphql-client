@@ -44,7 +44,7 @@ interface Props {
 }
 
 const MyDrawer = ({ open, onClose }: Props) => {
-    const isAuthenticated = useSelector((state: RootState) => Boolean(state.token));
+    const isAuthenticated = useSelector((state: RootState) => Boolean(state.userName));
     return (
         <Drawer
             variant="temporary"
