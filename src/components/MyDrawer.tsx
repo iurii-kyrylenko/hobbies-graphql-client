@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../store";
-import { login, logout } from "../store/app-slice";
+import { logout } from "../store/app-slice";
 
 const LinkedListItem = ({ text, path }: { text: string; path: string }) => (
     <ListItem key={text} disablePadding>
@@ -19,32 +19,6 @@ const LinkedListItem = ({ text, path }: { text: string; path: string }) => (
     </ListItem>
 );
 
-/**
- * FOR DEBUG ONLY!
- */
-const LoginListItem = ({ text }: { text: string }) => {
-    const navigate = useNavigate();
-    const dispatch: AppDispatch = useDispatch();
-
-    const handleLogin = () => {
-        const token = "42";
-        localStorage.setItem("token", token);
-        dispatch(login(token));
-        navigate("");
-    };
-
-    return (
-        <ListItem key="Logout" disablePadding>
-            <ListItemButton onClick={handleLogin} sx={{ textAlign: "left" }}>
-                <ListItemText primary={text} />
-            </ListItemButton>
-        </ListItem>
-    );
-};
-
-/**
- * FOR DEBUG ONLY!
- */
 const LogoutListItem = ({ text }: { text: string }) => {
     const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
@@ -84,18 +58,18 @@ const MyDrawer = ({ open, onClose }: Props) => {
                 <Divider />
                 {isAuthenticated ?
                     <List>
-                        <LinkedListItem text="Home" path={""} />
-                        <LinkedListItem text="Books" path={"books"} />
-                        <LinkedListItem text="Movies" path={"movies"} />
-                        <LinkedListItem text="Error" path={"42"} />
+                        <LinkedListItem text="Home" path="" />
+                        <LinkedListItem text="Books" path="books" />
+                        <LinkedListItem text="Movies" path="movies" />
+                        <LinkedListItem text="Error" path="42" />
                         <Divider />
                         <LogoutListItem text="Logout" />
                     </List> :
                     <List>
-                        <LinkedListItem text="Home" path={""} />
-                        <LinkedListItem text="Error" path={"42"} />
+                        <LinkedListItem text="Home" path="" />
+                        <LinkedListItem text="Error" path="42" />
                         <Divider />
-                        <LoginListItem text="Login" />
+                        <LinkedListItem text="Login" path="login" />
                     </List>}
             </Box>
         </Drawer>

@@ -1,15 +1,17 @@
 import { Route, createRoutesFromElements, createBrowserRouter } from "react-router-dom";
-import App from "./components/App.tsx";
-import Home from "./components/Home.tsx";
-import Books from "./components/Books.tsx";
-import Movies from "./components/Movies.tsx";
-import ErrorPage from "./components/ErrorPage.tsx";
+import Layout from "./pages/Layout.tsx";
+import Login from "./pages/Login.tsx";
+import Home from "./pages/Home.tsx";
+import Books from "./pages/Books.tsx";
+import Movies from "./pages/Movies.tsx";
+import ErrorBoundary from "./pages/ErrorBoundary.tsx";
 
 const router = createBrowserRouter(createRoutesFromElements(
-  <Route path="/" Component={App} ErrorBoundary={ErrorPage}>
+  <Route path="/" Component={Layout} ErrorBoundary={ErrorBoundary}>
       <Route index Component={Home} />
-      <Route path="movies" Component={Movies} />
+      <Route path="login" Component={Login} />
       <Route path="books" Component={Books} />
+      <Route path="movies" Component={Movies} />
   </Route>
 ));
 

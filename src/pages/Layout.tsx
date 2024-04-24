@@ -3,11 +3,11 @@ import { Outlet, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../store";
 import { toggleDrawer, login  } from "../store/app-slice";
-import MyAppBar from "./MyAppBar";
-import MyDrawer from "./MyDrawer";
-import MySpeedDial from "./MySpeedDial";
+import MyAppBar from "../components/MyAppBar";
+import MyDrawer from "../components/MyDrawer";
+import MySpeedDial from "../components/MySpeedDial";
 
-const App = () => {
+const Layout = () => {
     const isDrawerOpen = useSelector((state: RootState) => state.drawerOpen);
     const dispatch: AppDispatch = useDispatch();
     const handleToggleDrawer = () => dispatch(toggleDrawer());
@@ -33,4 +33,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default Layout;

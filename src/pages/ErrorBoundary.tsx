@@ -6,7 +6,7 @@ interface RouterError {
     error: Error;
 }
 
-const ErrorPage = () =>  {
+const ErrorBoundary = () =>  {
     const error = useRouteError() as RouterError;
 
     return (
@@ -20,4 +20,4 @@ const ErrorPage = () =>  {
     );
 };
 
-export default ErrorPage;
+export default ErrorBoundary;

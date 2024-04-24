@@ -54,14 +54,14 @@ const MySearch = () => {
         setValue("");
     }, [location.pathname]);
 
-    const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-        if(event.key === "Enter") {
+    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+        if(e.key === "Enter") {
             dispatch(search(value));
         }
     };
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
-        setValue(event.currentTarget.value);
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
+        setValue(e.currentTarget.value);
 
     return (
         <Search>

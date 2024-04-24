@@ -19,13 +19,14 @@ const MyAppBar = ({ onDrawerClick }: Props) => {
     let pageName = "My Hobbies";
     let isSearch = false;
     switch (location.pathname) {
+        case "/login": pageName = "Login"; break;
         case "/books": pageName = "My Books"; isSearch = true; break;
         case "/movies": pageName = "My Movies"; isSearch = true; break;
     }
 
     // TODO: Get user data from the token.
     const token = useSelector((state: RootState) => state.token);
-    const user = token ? "user" : null;
+    const user = token ? token.substring(0, 5) : null;
 
     return (
         <AppBar component="nav" position="sticky">
