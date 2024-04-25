@@ -5,6 +5,7 @@ import { RootState, AppDispatch } from "../store";
 import { toggleDrawer, login  } from "../store/app-slice";
 import MyAppBar from "../components/MyAppBar";
 import MyDrawer from "../components/MyDrawer";
+import MySnackbar from "../components/MySnackbar";
 import MySpeedDial from "../components/MySpeedDial";
 
 const Layout = () => {
@@ -24,6 +25,7 @@ const Layout = () => {
         <>
             <MyAppBar onDrawerClick={handleToggleDrawer} />
             <MyDrawer open={isDrawerOpen} onClose={handleToggleDrawer} />
+            <MySnackbar />
             {isSpeedDial && <MySpeedDial />}
             <Outlet />
         </>

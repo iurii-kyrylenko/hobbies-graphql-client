@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
-import { login } from "../store/app-slice";
+import { login, openSnackbar } from "../store/app-slice";
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -25,6 +25,7 @@ const Login = () => {
         localStorage.setItem("token", formData.token);
         dispatch(login(formData.token));
         navigate("/");
+        dispatch(openSnackbar({ message: "Test message", severity: "success" }));
     };
     
     return (

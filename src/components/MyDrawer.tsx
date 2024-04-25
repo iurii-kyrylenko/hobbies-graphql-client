@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../store";
-import { logout } from "../store/app-slice";
+import { logout, openSnackbar } from "../store/app-slice";
 
 const LinkedListItem = ({ text, path }: { text: string; path: string }) => (
     <ListItem key={text} disablePadding>
@@ -27,6 +27,7 @@ const LogoutListItem = ({ text }: { text: string }) => {
         localStorage.removeItem("token");
         dispatch(logout());
         navigate("/");
+        dispatch(openSnackbar({ message: "You were logged out", severity: "info" }));
     };
 
     return (

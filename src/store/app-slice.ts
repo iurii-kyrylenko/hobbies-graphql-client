@@ -1,7 +1,12 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
+
+type Severity = "success" | "info" | "warning" | "error" | undefined;
 
 interface AppState {
     drawerOpen: boolean;
+    snackbarOpen: boolean;
+    snackbarMessage: string;
+    snackbarSeverity: Severity;
     search: string;
     userId: string;
     userName: string;
@@ -9,6 +14,9 @@ interface AppState {
 
 const initialState: AppState = {
     drawerOpen: false,
+    snackbarOpen: false,
+    snackbarMessage: "",
+    snackbarSeverity: undefined,
     search: "",
     userId: "",
     userName: "",
@@ -30,6 +38,15 @@ const appSlice = createSlice({
         toggleDrawer: (state) => {
             state.drawerOpen = !state.drawerOpen;
         },
+        openSnackbar: (state, action: PayloadAction<{ message: string, severity: Severity }>) => {
+            state.snackbarOpen = true;
+            state.snackbarMessage = action.payload.message;
+            state.snackbarSeverity = action.payload.severity;
+
+        },
+        closeSnackbar: (state) => {
+            state.snackbarOpen = false;
+        },
         search: (state, action: PayloadAction<string>) => {
             state.search = action.payload;
         },
@@ -46,12 +63,22 @@ const parseToken = (token: string | null) => {
     } catch {
         return { userId: "", userName: "" };
     };
-    // ==== fake ====
-    // return
-    //     userId: token ? "12345" : "",
-    //     userName: token ? token.substring(0, 16) : "",
-    // };
 };
 
 export default appSlice.reducer;
-export const { login, logout, toggleDrawer, search } = appSlice.actions;
+
+export const {
+    login,
+    logout,
+    toggleDrawer,
+    openSnackbar,
+    closeSnackbar,
+    search
+} = appSlice.actions;
+
+export const snackbarSelector = createSelector(
+    (state: AppState) => state.snackbarOpen,
+    (state: AppState) => state.snackbarMessage,
+    (state: AppState) => state.snackbarSeverity,
+    (open, message, severity) => ({ open, message, severity })
+);
