@@ -1,19 +1,52 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { gql, useLazyQuery } from "@apollo/client";
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import { login, openSnackbar } from "../store/app-slice";
 
+interface Vars {
+    name: string;
+    password: string;
+}
+
+interface Data {
+    login: string;
+}
+
+const LOGIN = gql`
+    query login($name: String!, $password: String!) {
+        login(name: $name, password: $password)
+    }
+`;
+
 const Login = () => {
     const [formData, setFormData] = useState({
-        token: "",
+        name: "",
+        password: "",
     });
 
     const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
+    const [executeQuery, { data, error }] = useLazyQuery<Data, Vars>(LOGIN);
+
+    useEffect(() => {
+        if (error?.message) {
+            dispatch(openSnackbar({ message: error.message, severity: "error" }));
+        }
+
+        if (data?.login) {
+            localStorage.setItem("token", data.login);
+            dispatch(login(data.login));
+            navigate("/");
+            dispatch(openSnackbar({ message: "You are looged in", severity: "success" }));
+        }
+    }, [data, error, dispatch]);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -22,24 +55,32 @@ const Login = () => {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        localStorage.setItem("token", formData.token);
-        dispatch(login(formData.token));
-        navigate("/");
-        dispatch(openSnackbar({ message: "Test message", severity: "success" }));
+        executeQuery({ variables: formData });
     };
-    
+
     return (
-        <Box component="form" textAlign="left" sx={{ m: 6 }} onSubmit={handleSubmit}>
+        <Box component="form" sx={{ maxWidth: 400, m: 8 }} onSubmit={handleSubmit}>
             <TextField
-                label="Token"
+                label="Name"
                 variant="outlined"
                 fullWidth
-                name="token"
-                value={formData.token}
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
                 required
             />
-            <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+            <TextField
+                label="Password"
+                variant="outlined"
+                fullWidth
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                sx={{ mt: 4 }}
+            />
+            <Button type="submit" variant="contained" color="primary" sx={{ mt: 5 }}>
                 Login
             </Button>
         </Box>

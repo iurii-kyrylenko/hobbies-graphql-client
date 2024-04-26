@@ -27,7 +27,7 @@ const LogoutListItem = ({ text }: { text: string }) => {
         localStorage.removeItem("token");
         dispatch(logout());
         navigate("/");
-        dispatch(openSnackbar({ message: "You were logged out", severity: "info" }));
+        dispatch(openSnackbar({ message: "You are logged out", severity: "info" }));
     };
 
     return (

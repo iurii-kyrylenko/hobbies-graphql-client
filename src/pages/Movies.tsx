@@ -1,8 +1,16 @@
 import { Box } from "@mui/material";
-import { gql } from "@apollo/client";
-import { RootState } from "../store";
+import { gql, useQuery } from "@apollo/client";
 import { useSelector } from "react-redux";
-import Query from "../components/Query";
+import { queryItemsSelector } from "../store/app-slice";
+
+interface Vars {
+    userId: string;
+    search: string;
+}
+
+interface Data {
+    movies: any[];
+}
 
 const GET_MOVIES = gql`
     query getMovies($userId: ID!, $search: String) {
@@ -17,12 +25,12 @@ const GET_MOVIES = gql`
 `;
 
 const Movies = () => {
-    const search = useSelector((state: RootState) => state.search);
-    const userId = useSelector((state: RootState) => state.userId);
+    const variables = useSelector(queryItemsSelector);
+    const { loading, error, data } = useQuery<Data, Vars>(GET_MOVIES, { variables });
 
     return (
         <Box component="main" sx={{ p: 3 }}>
-            <Query query={GET_MOVIES} variables={{ userId, search }} />
+            <pre>{JSON.stringify({ loading, error, data }, null, 2)}</pre>
         </Box>
     );
 };

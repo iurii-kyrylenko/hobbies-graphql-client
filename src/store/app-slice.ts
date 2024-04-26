@@ -82,3 +82,9 @@ export const snackbarSelector = createSelector(
     (state: AppState) => state.snackbarSeverity,
     (open, message, severity) => ({ open, message, severity })
 );
+
+export const queryItemsSelector = createSelector(
+    (state: AppState) => state.userId,
+    (state: AppState) => state.search,
+    (userId, search) => ({ userId, search })
+);
