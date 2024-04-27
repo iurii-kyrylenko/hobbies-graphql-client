@@ -29,7 +29,7 @@ const Movies = () => {
     const { loading, error, data } = useQuery<Data, Vars>(GET_MOVIES, { variables });
 
     return (
-        <Box component="main" sx={{ p: 3 }}>
+        <Box component="main" sx={{ p: 3, overflowX: "scroll" }}>
             <pre>{JSON.stringify({ loading, error, data }, null, 2)}</pre>
         </Box>
     );

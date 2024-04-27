@@ -5,9 +5,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import PersonIcon from "@mui/icons-material/Person";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
-import { RootState } from "../store";
 import { useSelector } from "react-redux";
+import { RootState } from "../store";
 import MySearch from "./MySearch";
 
 interface Props {
@@ -16,13 +17,18 @@ interface Props {
 
 const MyAppBar = ({ onDrawerClick }: Props) => {
     const location = useLocation();
-    let pageName = "My Hobbies";
-    let isSearch = false;
-    switch (location.pathname) {
-        case "/login": pageName = "Login"; break;
-        case "/books": pageName = "My Books"; isSearch = true; break;
-        case "/movies": pageName = "My Movies"; isSearch = true; break;
-    }
+    const [pageName, isSearch] = useMemo(() => {
+        let pageName = "My Hobbies";
+        let isSearch = false;
+        switch (location.pathname) {
+            case "/login": pageName = "Login"; break;
+            case "/books": pageName = "My Books"; isSearch = true; break;
+            case "/movies": pageName = "My Movies"; isSearch = true; break;
+            case "/books/new": pageName = "Add Book"; isSearch = false; break;
+            case "/movies/new": pageName = "Add Movie"; isSearch = false; break;
+        }
+        return [pageName, isSearch];
+    }, [location.pathname]);
 
     const user = useSelector((state: RootState) => state.userName);
 

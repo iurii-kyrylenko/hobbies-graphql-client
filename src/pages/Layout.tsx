@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../store";
 import { toggleDrawer, login  } from "../store/app-slice";
 import MyAppBar from "../components/MyAppBar";
 import MyDrawer from "../components/MyDrawer";
 import MySnackbar from "../components/MySnackbar";
-import MySpeedDial from "../components/MySpeedDial";
+import MyFab from "../components/MyFab";
 
 const Layout = () => {
     const isDrawerOpen = useSelector((state: RootState) => state.drawerOpen);
@@ -18,15 +18,12 @@ const Layout = () => {
         dispatch(login(token));
     }, [dispatch]);
 
-    const { pathname } = useLocation();
-    const isSpeedDial = (pathname === "/books") || (pathname === "/movies");
-
     return (
         <>
             <MyAppBar onDrawerClick={handleToggleDrawer} />
             <MyDrawer open={isDrawerOpen} onClose={handleToggleDrawer} />
             <MySnackbar />
-            {isSpeedDial && <MySpeedDial />}
+            <MyFab />
             <Outlet />
         </>
     );

@@ -75,6 +75,7 @@ const Login = () => {
                 fullWidth
                 name="password"
                 type="password"
+                autoComplete="on"
                 value={formData.password}
                 onChange={handleChange}
                 required
