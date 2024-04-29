@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Books from "./pages/Books";
 import Movies from "./pages/Movies";
 import AddBook from "./pages/AddBook";
+import EditBook from "./pages/EditBook";
 import ErrorBoundary from "./pages/ErrorBoundary";
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -14,6 +15,7 @@ const router = createBrowserRouter(createRoutesFromElements(
       <Route path="books" Component={Books} />
       <Route path="movies" Component={Movies} />
       <Route path="books/new" Component={AddBook} />
+      <Route path="books/:id" Component={EditBook} />
       <Route path="movies/new" element={<p>Add movie</p>} />
   </Route>
 ));

@@ -18,8 +18,8 @@ const MyFab = () => {
                 aria-label="add"
                 sx={{
                     position: "fixed",
-                    top: 80,
-                    right: 10,
+                    top: 90,
+                    right: 30,
                     opacity: 0.8,
                 }}
             >
