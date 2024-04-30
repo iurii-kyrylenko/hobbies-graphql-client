@@ -1,8 +1,20 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { ChangeEvent, FormEvent, useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { gql, useFragment, useMutation } from "@apollo/client";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store";
+import { openSnackbar } from "../store/app-slice";
+
+interface FormData {
+    author: string;
+    title: string;
+    mode: Mode;
+    completed: string;
+}
 
 enum Mode {
     Regular = "REGULAR",
@@ -10,13 +22,63 @@ enum Mode {
     Mixed = "MIXED",
 }
 
+const BOOK_FRAGMENT = gql`
+    fragment UpdateFragment on Book {
+        author
+        title
+        mode
+        completed
+    }
+`;
+
+const UPDATE_BOOK = gql`
+    mutation UpdateBook($id: ID!, $bookContent: UpdateBookContent!) {
+        updateBook(id: $id, bookContent: $bookContent) {
+            ...UpdateFragment
+        }
+    }
+    ${BOOK_FRAGMENT}
+`;
+
 const EditBook = () => {
-    const [formData, setFormData] = useState({
-        author: "",
-        title: "",
-        mode: Mode.Regular,
-        completed: "",
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const dispatch: AppDispatch = useDispatch();
+
+    const { data } = useFragment<FormData>({
+        from: { __typename: "Book", id },
+        fragment: BOOK_FRAGMENT,
     });
+
+    const [formData, setFormData] = useState<FormData>({
+        author: data.author ?? "",
+        title: data.title ?? "",
+        mode: data.mode ?? Mode.Regular,
+        completed: data.completed?.substring(0, 10) ?? "",
+    });
+
+    const [updateBook, { error, data: result }] = useMutation(UPDATE_BOOK, {
+        update(cache, { data: { updateBook } }) {
+            cache.updateFragment({
+                id: `Book:${id}`,
+                fragment: BOOK_FRAGMENT,
+            }, () => updateBook)
+        }
+    });
+
+    useEffect(() => {
+        if (error?.message) {
+            dispatch(openSnackbar({ message: error.message, severity: "error" }));
+        }
+
+        if (result?.updateBook) {
+            dispatch(openSnackbar({
+                message: `Book updated`,
+                severity: "success",
+            }));
+            navigate("/books");
+        }
+    }, [result, error, dispatch]);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -25,7 +87,7 @@ const EditBook = () => {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        console.log(formData);
+        updateBook({ variables: { id, bookContent: formData } });
     };
 
     return (

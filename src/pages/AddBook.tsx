@@ -9,21 +9,9 @@ import { AppDispatch, RootState } from "../store";
 import { openSnackbar } from "../store/app-slice";
 import MenuItem from "@mui/material/MenuItem";
 
-const CREATE_BOOK = gql`
-    mutation CreateBook($bookContent: CreateBookContent!) {
-        createBook(bookContent: $bookContent) {
-            id
-            userId
-            author
-            title
-            mode
-            completed
-        }
-    }
-`;
 
 const BOOK_FRAGMENT = gql`
-    fragment NewBook on Book {
+    fragment CreateFragment on Book {
         id
         userId
         author
@@ -31,6 +19,15 @@ const BOOK_FRAGMENT = gql`
         mode
         completed
     }
+`;
+
+const CREATE_BOOK = gql`
+    mutation CreateBook($bookContent: CreateBookContent!) {
+        createBook(bookContent: $bookContent) {
+            ...CreateFragment
+        }
+    }
+    ${BOOK_FRAGMENT}
 `;
 
 enum Mode {
@@ -41,8 +38,8 @@ enum Mode {
 
 const AddBook = () => {
     const [formData, setFormData] = useState({
-        author: "Test Author",
-        title: "Test Title",
+        author: "",
+        title: "",
         mode: Mode.Regular,
         completed: new Date().toISOString().substring(0,10),
     });

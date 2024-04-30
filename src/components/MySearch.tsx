@@ -1,11 +1,10 @@
-import { useState, useEffect, KeyboardEvent, ChangeEvent } from 'react';
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store";
-import { search  } from "../store/app-slice";
-import { InputBase } from "@mui/material";
+import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { alpha, styled } from "@mui/material/styles";
-import { useLocation } from 'react-router-dom';
+import { useState, KeyboardEvent, ChangeEvent } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store";
+import { search  } from "../store/app-slice";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -45,14 +44,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const MySearch = () => {
-    const [value, setValue] = useState<string>("");
+    const storedSearch = useSelector((state: RootState) => state.search);
+    const [value, setValue] = useState<string>(storedSearch);
     const dispatch: AppDispatch = useDispatch();
-    const location = useLocation();
-
-    useEffect(() => {
-        dispatch(search(""));
-        setValue("");
-    }, [location.pathname]);
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         if(e.key === "Enter") {
@@ -70,7 +64,7 @@ const MySearch = () => {
             </SearchIconWrapper>
             <StyledInputBase
                 placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
+                inputProps={{ "aria-label": "search", id: "search" }}
                 type="search"
                 onChange={handleChange}
                 value={value}

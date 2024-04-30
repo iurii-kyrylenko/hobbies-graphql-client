@@ -9,15 +9,15 @@ import EditBook from "./pages/EditBook";
 import ErrorBoundary from "./pages/ErrorBoundary";
 
 const router = createBrowserRouter(createRoutesFromElements(
-  <Route path="/" Component={Layout} ErrorBoundary={ErrorBoundary}>
-      <Route index Component={Home} />
-      <Route path="login" Component={Login} />
-      <Route path="books" Component={Books} />
-      <Route path="movies" Component={Movies} />
-      <Route path="books/new" Component={AddBook} />
-      <Route path="books/:id" Component={EditBook} />
-      <Route path="movies/new" element={<p>Add movie</p>} />
-  </Route>
+    <Route path="/" Component={Layout} ErrorBoundary={ErrorBoundary}>
+        <Route index Component={Home} />
+        <Route path="login" Component={Login} />
+        <Route path="books" Component={Books} />
+        <Route path="movies" Component={Movies} />
+        <Route path="books/new" Component={AddBook} />
+        <Route path="books/:id" Component={EditBook} />
+        <Route path="movies/new" element={<p>Add movie</p>} />
+    </Route>
 ));
 
 export default router;
