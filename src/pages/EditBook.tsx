@@ -37,9 +37,9 @@ const EditBook = () => {
     const [updateBook, { error, data: result }] = useMutation(UPDATE_BOOK, {
         update(cache, { data: { updateBook } }) {
             cache.updateFragment({
-                id: `Book:${id}`,
+                id: cache.identify({ __typename: "Book", id }),
                 fragment: BOOK_FRAGMENT,
-            }, () => updateBook)
+            }, () => updateBook);
         }
     });
 
