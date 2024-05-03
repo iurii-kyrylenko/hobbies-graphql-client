@@ -5,7 +5,7 @@ import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/EditOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +16,6 @@ import ConfirmDialog from "../components/ConfirmDialog";
 
 interface Vars {
     userId: string;
-    search: string;
 }
 
 interface Data {
@@ -24,8 +23,8 @@ interface Data {
 }
 
 const GET_BOOKS = gql`
-    query getBooks($userId: ID!, $search: String) {
-        books(userId: $userId, search: $search) {
+    query getBooks($userId: ID!) {
+        books(userId: $userId) {
             id
             author
             title
@@ -44,10 +43,18 @@ const REMOVE_BOOK = gql`
 `;
 
 const Books = () => {
-    const variables = useSelector(queryItemsSelector);
-    const { error, data } = useQuery<Data, Vars>(GET_BOOKS, { variables });
+    const { userId, search} = useSelector(queryItemsSelector);
+    const { error, data } = useQuery<Data, Vars>(GET_BOOKS, { variables: { userId } });
     const dispatch: AppDispatch = useDispatch();
     const limit = useInfiniteScroll();
+
+    const books = useMemo(() =>
+        (data?.books ?? []).filter(({ author, title }) => {
+            const regexp = new RegExp(search, "i");
+            return regexp.test(author) || regexp.test(title);
+        }),
+        [search, data?.books]
+    );
 
     useEffect(() => {
         if (error?.message) {
@@ -82,7 +89,7 @@ const Books = () => {
         <>
             <ConfirmDialog data={confirmData} onClose={handleConfirmClose} onConfirm={handleDelete} />
             <Grid container component="main" spacing={2} sx={{ p: 2, backgroundColor: "#f4f4ff" }}>
-                {data?.books
+                {books
                     .filter((_b, idx) => idx < limit)
                     .map((book) => (
                         <Grid key={book.id} item xs={12} sm={6} md={4}>
