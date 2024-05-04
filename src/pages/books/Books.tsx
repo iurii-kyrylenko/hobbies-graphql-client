@@ -30,7 +30,7 @@ const Books = () => {
     const { error, data } = useQuery<Data, Vars>(GET_BOOKS, { variables: { userId } });
     const dispatch: AppDispatch = useDispatch();
     const scrollCondition = useInfiniteScroll(search);
-    const books = useSearch<Book>(data?.books, ["author", "title", "completed"], search);
+    const books = useSearch<Book>(data?.books, ["author", "title", "mode", "completed"], search);
 
     useEffect(() => {
         if (error?.message) {
