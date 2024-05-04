@@ -1,31 +1,12 @@
 import { useEffect } from "react";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store";
-import { openSnackbar } from "../store/app-slice";
-import BookForm, { BookData } from "../components/BookForm";
-
-
-const BOOK_FRAGMENT = gql`
-    fragment CreateFragment on Book {
-        id
-        userId
-        author
-        title
-        mode
-        completed
-    }
-`;
-
-const CREATE_BOOK = gql`
-    mutation CreateBook($bookContent: CreateBookContent!) {
-        createBook(bookContent: $bookContent) {
-            ...CreateFragment
-        }
-    }
-    ${BOOK_FRAGMENT}
-`;
+import { AppDispatch, RootState } from "../../store";
+import { openSnackbar } from "../../store/app-slice";
+import BookForm from "../../components/books/BookForm";
+import { CREATE_BOOK, CREATE_BOOK_FRAGMENT } from "../../queries/books";
+import { Book } from "../../types";
 
 const AddBook = () => {
     const navigate = useNavigate();
@@ -39,7 +20,7 @@ const AddBook = () => {
                     books(existingBooks = []) {
                         const newBookRef = cache.writeFragment({
                             data: createBook,
-                            fragment: BOOK_FRAGMENT,
+                            fragment: CREATE_BOOK_FRAGMENT,
                         });
                         return [newBookRef, ...existingBooks];
                     }
@@ -62,7 +43,7 @@ const AddBook = () => {
         }
     }, [data, error, dispatch]);
 
-    const handleSubmit = (formData: BookData) => {
+    const handleSubmit = (formData: Book) => {
         createBook({ variables: { bookContent: { userId, ...formData } } });
     };
 

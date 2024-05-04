@@ -1,7 +1,8 @@
 import { Box } from "@mui/material";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useSelector } from "react-redux";
-import { queryItemsSelector } from "../store/app-slice";
+import { queryItemsSelector } from "../../store/app-slice";
+import { GET_MOVIES } from "../../queries/movies";
 
 interface Vars {
     userId: string;
@@ -11,18 +12,6 @@ interface Vars {
 interface Data {
     movies: any[];
 }
-
-const GET_MOVIES = gql`
-    query getMovies($userId: ID!, $search: String) {
-        movies(userId: $userId, search: $search) {
-            title
-            year
-            notes
-            completed
-            imdbId
-        }
-    }
-`;
 
 const Movies = () => {
     const variables = useSelector(queryItemsSelector);

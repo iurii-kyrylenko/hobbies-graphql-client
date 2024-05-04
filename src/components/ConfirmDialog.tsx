@@ -1,17 +1,21 @@
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
+import { Book, Movie } from "../types";
+import BookCard from "./books/BookCard";
+import MovieCard from "./movies/MovieCard";
 
 interface Props {
-    data: any;
+    title: string;
+    data: Book | Movie | null;
+    Content: typeof BookCard | typeof MovieCard;
     onClose: () => void;
     onConfirm: () => void;
 }
 
-const ConfirmDialog = ({ data, onClose, onConfirm }: Props) => {
+const ConfirmDialog = ({ title, data, Content, onClose, onConfirm }: Props) => {
     return (
         <Dialog
             open={!!data}
@@ -20,14 +24,10 @@ const ConfirmDialog = ({ data, onClose, onConfirm }: Props) => {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                {"Remove item?"}
+                {title}
             </DialogTitle>
             <Card variant="outlined">
-                <CardContent>
-                    <pre style={{ whiteSpace: "pre-wrap" }}>
-                        {JSON.stringify(data, null, 2)}
-                    </pre>
-                </CardContent>
+                <Content {...data} />
             </Card>
             <DialogActions>
                 <Button onClick={onClose}>Disagree</Button>

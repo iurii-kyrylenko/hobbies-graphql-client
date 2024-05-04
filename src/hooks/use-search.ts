@@ -1,12 +1,10 @@
 import { useMemo } from "react";
 
-type Items = { [key: string]: string }[] | undefined;
-
-const useSearch = (items: Items, fields: string[], search: string) =>
+const useSearch = <T>(items: T[] | undefined, fields: (keyof T)[], search: string) =>
     useMemo(
         () => (items ?? []).filter((item) => {
             const regexp = new RegExp(search, "i");
-            return fields.some((field) => regexp.test(item[field]));
+            return fields.some((field) => regexp.test(item[field] as string));
         }),
         [items, fields, search]
     );

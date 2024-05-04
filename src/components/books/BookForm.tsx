@@ -3,29 +3,17 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { Book, Mode } from "../../types";
 
 interface Props {
-    data?: BookData;
-    onSubmit: (formData: BookData) => void;
-}
-
-export interface BookData {
-    author?: string;
-    title?: string;
-    mode?: Mode;
-    completed?: string;
-}
-
-enum Mode {
-    Regular = "REGULAR",
-    Audio = "AUDIO",
-    Mixed = "MIXED",
+    data?: Book;
+    onSubmit: (formData: Book) => void;
 }
 
 const BookForm = ({ data, onSubmit }: Props) => {
-    const [formData, setFormData] = useState<BookData>({
-        author: data?.author,
-        title: data?.title,
+    const [formData, setFormData] = useState<Book>({
+        author: data?.author ?? "",
+        title: data?.title ?? "",
         mode: data?.mode ?? Mode.Regular,
         completed: (data?.completed ?? new Date().toISOString()).substring(0, 10),
     });
