@@ -1,7 +1,7 @@
 import { CardContent } from "@mui/material";
 import { Movie } from "../../types";
 
-const BookCard = ({ title, year, notes, imdbId, completed }: Movie) => {
+const MovieCard = ({ title, year, notes, imdbId, completed }: Movie) => {
     return (
         <CardContent>
             <pre style={{ whiteSpace: "pre-wrap" }}>
@@ -11,4 +11,4 @@ const BookCard = ({ title, year, notes, imdbId, completed }: Movie) => {
     );
 };
 
-export default BookCard;
+export default MovieCard;

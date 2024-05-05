@@ -28,6 +28,7 @@ const MyAppBar = ({ onDrawerClick }: Props) => {
             case `/books/${id}`: pageName = "Edit Book"; break;
             case "/movies": pageName = "My Movies"; isSearch = true; break;
             case "/movies/new": pageName = "Add Movie"; break;
+            case `/movies/${id}`: pageName = "Edit Movie"; break;
         }
         return [pageName, isSearch];
     }, [location.pathname, id]);

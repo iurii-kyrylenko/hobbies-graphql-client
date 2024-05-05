@@ -13,11 +13,12 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route index Component={Home} />
         <Route path="login" Component={Login} />
         <Route path="books" Component={Books} />
-        <Route path="movies" Component={Movies} />
         <Route path="books/new" Component={AddBook} />
         <Route path="books/:id" Component={EditBook} />
+        <Route path="movies" Component={Movies} />
         <Route path="movies/new" element={<p>Add movie</p>} />
-    </Route>
+        <Route path="movies/:id" element={<p>Edit movie</p>} />
+     </Route>
 ));
 
 export default router;

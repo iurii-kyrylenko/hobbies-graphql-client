@@ -33,7 +33,8 @@ const DeleteDialog = () => {
 
     const handleConfirm = () => {
         removeItem({ variables: { id: data?.id } });
-        dispatch(confirmDelete(null))
+        dispatch(confirmDelete(null));
+        dispatch(openSnackbar({ message: `Deleted: ${data?.title}`, severity: "success" }));
     }
 
     const handleClose = () => dispatch(confirmDelete(null));

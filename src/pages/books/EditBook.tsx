@@ -4,15 +4,16 @@ import { useFragment, useMutation } from "@apollo/client";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store";
 import { openSnackbar } from "../../store/app-slice";
-import BookForm, { BookData } from "../../components/books/BookForm";
+import BookForm from "../../components/books/BookForm";
 import { UPDATE_BOOK, UPDATE_BOOK_FRAGMENT } from "../../queries/books";
+import { Book } from "../../types";
 
 const EditBook = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
 
-    const { data } = useFragment<BookData>({
+    const { data } = useFragment<Book>({
         from: { __typename: "Book", id },
         fragment: UPDATE_BOOK_FRAGMENT,
     });
@@ -40,11 +41,11 @@ const EditBook = () => {
         }
     }, [result, error, dispatch]);
 
-    const handleSubmit = (formData: BookData) => {
+    const handleSubmit = (formData: Book) => {
         updateBook({ variables: { id, bookContent: formData } });
     };
 
-    return <BookForm data={data as BookData} onSubmit={handleSubmit} />;
+    return <BookForm data={data} onSubmit={handleSubmit} />;
 };
 
 export default EditBook;
