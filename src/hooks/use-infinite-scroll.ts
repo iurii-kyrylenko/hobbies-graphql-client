@@ -10,7 +10,7 @@ export const useInfiniteScroll = (search: string, delta = 24) => {
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.innerHeight + Math.ceil(window.scrollY) >= document.body.offsetHeight) {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
                 setLimit((limit) => limit + delta);
             }
         };

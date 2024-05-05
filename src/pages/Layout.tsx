@@ -7,6 +7,7 @@ import MyAppBar from "../components/MyAppBar";
 import MyDrawer from "../components/MyDrawer";
 import MySnackbar from "../components/MySnackbar";
 import MyFab from "../components/MyFab";
+import ConfirmDialog from "../components/DeleteDialog";
 
 const Layout = () => {
     const isDrawerOpen = useSelector((state: RootState) => state.drawerOpen);
@@ -24,6 +25,7 @@ const Layout = () => {
             <MyDrawer open={isDrawerOpen} onClose={handleToggleDrawer} />
             <MySnackbar />
             <MyFab />
+            <ConfirmDialog />
             <Outlet />
         </>
     );

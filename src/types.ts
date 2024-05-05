@@ -5,6 +5,7 @@ export enum Mode {
 };
 
 export interface Book {
+    __typename?: string;
     id?: string;
     author?: string;
     title?: string;
@@ -13,6 +14,7 @@ export interface Book {
 }
 
 export interface Movie {
+    __typename?: string;
     id?: string;
     title?: string;
     year?: string;

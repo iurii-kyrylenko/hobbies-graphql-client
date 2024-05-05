@@ -11,3 +11,12 @@ export const GET_MOVIES = gql`
         }
     }
 `;
+
+
+export const REMOVE_MOVIE = gql`
+    mutation deleteMovie($id: ID!) {
+        deleteMovie(id: $id) {
+            id
+        }
+    }
+`;

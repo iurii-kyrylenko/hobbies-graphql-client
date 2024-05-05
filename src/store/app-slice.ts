@@ -1,6 +1,8 @@
 import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
+import { Book, Movie } from "../types";
 
 type Severity = "success" | "info" | "warning" | "error" | undefined;
+type DeleteData = Book | Movie | null;
 
 interface AppState {
     drawerOpen: boolean;
@@ -10,6 +12,7 @@ interface AppState {
     search: string;
     userId: string;
     userName: string;
+    deleteData: DeleteData;
 }
 
 const initialState: AppState = {
@@ -20,6 +23,7 @@ const initialState: AppState = {
     search: "",
     userId: "",
     userName: "",
+    deleteData: null,
 };
 
 const appSlice = createSlice({
@@ -50,6 +54,9 @@ const appSlice = createSlice({
         search: (state, action: PayloadAction<string>) => {
             state.search = action.payload;
         },
+        confirmDelete: (state, action: PayloadAction<DeleteData>) => {
+            state.deleteData = action.payload;
+        }
     },
 });
 
@@ -73,7 +80,8 @@ export const {
     toggleDrawer,
     openSnackbar,
     closeSnackbar,
-    search
+    search,
+    confirmDelete,
 } = appSlice.actions;
 
 export const snackbarSelector = createSelector(

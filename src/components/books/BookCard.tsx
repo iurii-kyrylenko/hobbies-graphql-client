@@ -9,7 +9,9 @@ const BookCard = ({ author, title, mode, completed }: Book) => {
             <p />
            <Typography sx={{ fontSize: 16 }} color="Highlight">by {author}</Typography>
             <p />
-            <Typography sx={{ fontSize: 14 }} color="text.secondary">{mode} | {completed?.substring(0,10)}</Typography>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary">
+                {mode} | {completed?.substring(0,10)}
+            </Typography>
         </CardContent>
     );
 };
