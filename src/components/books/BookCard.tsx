@@ -1,11 +1,14 @@
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import { Book } from "../../types";
 
 const BookCard = ({ author, title, mode, completed }: Book) => {
     return (
         <CardContent>
-            <Typography sx={{ fontSize: 18 }}>{title}</Typography>
+            <Box sx={{ overflowY: "auto"}}>
+                <Typography sx={{ fontSize: 18 }}>{title}</Typography>
+            </Box>
             <p />
            <Typography sx={{ fontSize: 16 }} color="Highlight">by {author}</Typography>
             <p />

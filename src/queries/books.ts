@@ -13,7 +13,7 @@ export const GET_BOOKS = gql`
 `;
 
 export const CREATE_BOOK_FRAGMENT = gql`
-    fragment CreateFragment on Book {
+    fragment CreateBookFragment on Book {
         id
         userId
         author
@@ -26,14 +26,14 @@ export const CREATE_BOOK_FRAGMENT = gql`
 export const CREATE_BOOK = gql`
     mutation CreateBook($bookContent: CreateBookContent!) {
         createBook(bookContent: $bookContent) {
-            ...CreateFragment
+            ...CreateBookFragment
         }
     }
     ${CREATE_BOOK_FRAGMENT}
 `;
 
 export const UPDATE_BOOK_FRAGMENT = gql`
-    fragment UpdateFragment on Book {
+    fragment UpdateBookFragment on Book {
         author
         title
         mode
@@ -44,7 +44,7 @@ export const UPDATE_BOOK_FRAGMENT = gql`
 export const UPDATE_BOOK = gql`
     mutation UpdateBook($id: ID!, $bookContent: UpdateBookContent!) {
         updateBook(id: $id, bookContent: $bookContent) {
-            ...UpdateFragment
+            ...UpdateBookFragment
         }
     }
     ${UPDATE_BOOK_FRAGMENT}

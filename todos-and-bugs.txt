@@ -1,15 +1,4 @@
 == 1 ==
-1. Search "xxx" for existing book => "xxx" is visible
-2. Rename "xxx" to "yyy" => [act] "yyy" is visible, "xxx" is not | [exp] both "xxx" and "yyy" are not visible
-
-== 2 ==
-While creating a new book => Warning: A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components
-    BookForm.tsx line 29:
-    ```
-      mode: data?.mode ?? Mode.Regular,
-    ```
-
-== 3 ==
 [Sometimes] After adding new book => Warning about element not found in apollo cache:
 https://www.apollographql.com/docs/react/errors#%7B%22version%22%3A%223.10.1%22%2C%22message%22%3A2%2C%22args%22%3A%5B%22%7B%5Cn%20%20%5C%22__ref%5C%22%3A%20%5C%22Book%3A663267f6660ff425d516ce01%5C%22%5Cn%7D%22%5D%7D
     ```
@@ -17,8 +6,14 @@ https://www.apollographql.com/docs/react/errors#%7B%22version%22%3A%223.10.1%22%
     cache.modify: You are trying to write a Reference that is not part of the store: { "__ref": "Book:663267f6660ff425d516ce01" } Please make sure to set the mergeIntoStore parameter to true when creating a Reference that is not part of the store yet: toReference(object, true)
 
     ```
+== 2 ==
+Improve infinite scrolling: UP and DOWN.
+
+== 3 ==
+Get IMDB info.
+
 == 4 ==
-Move state for confirmation dialog to the redux store.
+Date control in form.
 
 == 5 ==
-Move queries to separate location.
+Improve markup for cards.
