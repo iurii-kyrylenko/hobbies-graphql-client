@@ -1,13 +1,16 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useQuery } from "@apollo/client";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import CardContent from "@mui/material/CardContent";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Movie } from "../../types";
-import { useQuery } from "@apollo/client";
-import { MOVIE_INFO } from "../../queries/movies";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { Movie } from "../../types";
+import { MOVIE_INFO } from "../../queries/movies";
+import { AppDispatch } from "../../store";
+import { openSnackbar } from "../../store/app-slice";
 
 const MovieCard = ({ title, year, notes, imdbId, completed }: Movie) => {
     const [expanded, setExpanded] = useState(false);
@@ -54,7 +57,14 @@ interface Data {
 }
 
 const MovieInfo = ({ imdbId }: Props) => {
-    const { data } = useQuery<Data>(MOVIE_INFO, { variables: { imdbId } });
+    const dispatch: AppDispatch = useDispatch();
+
+    const { data } = useQuery<Data>(MOVIE_INFO, {
+        variables: { imdbId },
+        onError(error) {
+            dispatch(openSnackbar({ message: error.message, severity: "error" }));
+        },
+    });
     return (
         <>
             <img src={data?.movieInfo.poster} />
