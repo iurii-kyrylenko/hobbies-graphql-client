@@ -29,7 +29,7 @@ const Movies = () => {
     const { error, data } = useQuery<Data, Vars>(GET_MOVIES, { variables: { userId } });
     const dispatch: AppDispatch = useDispatch();
     const scrollCondition = useInfiniteScroll(search);
-    const movies = useSearch<Movie>(data?.movies, ["title", "year", "notes"], search);
+    const movies = useSearch<Movie>(data?.movies, ["title", "year", "notes", "completed"], search);
 
     useEffect(() => {
         if (error?.message) {

@@ -50,7 +50,7 @@ const DeleteDialog = () => {
                 {data?.__typename === "Book" ? "Delete book?" : "Delete movie?"}
             </DialogTitle>
 
-            <Card variant="outlined">
+            <Card variant="outlined" sx={{ overflowY: "auto" }}>
                 {data?.__typename === "Book" 
                 ? <BookCard {...data} />
                 : <MovieCard {...data} />}

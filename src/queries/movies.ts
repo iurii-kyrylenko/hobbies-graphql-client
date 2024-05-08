@@ -13,6 +13,17 @@ export const GET_MOVIES = gql`
     }
 `;
 
+
+export const MOVIE_INFO = gql`
+    query getMovies($imdbId: ID!) {
+        movieInfo(id: $imdbId) {
+            id
+            plot
+            poster
+        }
+    }
+`;
+
 export const CREATE_MOVIE_FRAGMENT = gql`
     fragment CreateMovieFragment on Movie {
         id
