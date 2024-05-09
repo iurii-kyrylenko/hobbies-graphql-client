@@ -21,6 +21,6 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route path="movies/new" Component={AddMovie} />
         <Route path="movies/:id" Component={EditMovie} />
      </Route>
-));
+), { basename: "/hobbies-graphql-client/" });
 
 export default router;
