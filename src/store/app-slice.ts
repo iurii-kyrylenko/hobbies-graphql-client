@@ -96,3 +96,9 @@ export const queryItemsSelector = createSelector(
     (state: AppState) => state.search,
     (userId, search) => ({ userId, search })
 );
+
+export const deleteItemSelector = createSelector(
+    (state: AppState) => state.userId,
+    (state: AppState) => state.deleteData,
+    (userId, deleteData) => ({ userId, data: deleteData })
+);

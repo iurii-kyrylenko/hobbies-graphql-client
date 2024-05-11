@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFragment, useMutation } from "@apollo/client";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
 import { openSnackbar } from "../../store/app-slice";
 import BookForm from "../../components/books/BookForm";
 import { UPDATE_BOOK, UPDATE_BOOK_FRAGMENT } from "../../queries/books";
@@ -12,6 +12,7 @@ const EditBook = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
+    const userId = useSelector((state: RootState) => state.userId);
 
     const { data } = useFragment<Book>({
         from: { __typename: "Book", id },
@@ -42,7 +43,7 @@ const EditBook = () => {
     }, [result, error, dispatch]);
 
     const handleSubmit = (formData: Book) => {
-        updateBook({ variables: { id, bookContent: formData } });
+        updateBook({ variables: { id, userId, bookContent: formData } });
     };
 
     return <BookForm data={data} onSubmit={handleSubmit} />;

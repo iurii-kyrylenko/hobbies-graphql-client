@@ -37,8 +37,8 @@ export const CREATE_MOVIE_FRAGMENT = gql`
 `;
 
 export const CREATE_MOVIE = gql`
-    mutation CreateMovie($movieContent: CreateMovieContent!) {
-        createMovie(movieContent: $movieContent) {
+    mutation CreateMovie($userId: ID!, $movieContent: MovieContent!) {
+        createMovie(userId: $userId, movieContent: $movieContent) {
             ...CreateMovieFragment
         }
     }
@@ -56,8 +56,8 @@ export const UPDATE_MOVIE_FRAGMENT = gql`
 `;
 
 export const UPDATE_MOVIE = gql`
-    mutation UpdateMovie($id: ID!, $movieContent: UpdateMovieContent!) {
-        updateMovie(id: $id, movieContent: $movieContent) {
+    mutation UpdateMovie($id: ID!, $userId: ID!, $movieContent: MovieContent!) {
+        updateMovie(id: $id, userId: $userId, movieContent: $movieContent) {
             ...UpdateMovieFragment
         }
     }
@@ -65,8 +65,8 @@ export const UPDATE_MOVIE = gql`
 `;
 
 export const REMOVE_MOVIE = gql`
-    mutation deleteMovie($id: ID!) {
-        deleteMovie(id: $id) {
+    mutation deleteMovie($id: ID!, $userId: ID!) {
+        deleteMovie(id: $id, userId: $userId) {
             id
         }
     }

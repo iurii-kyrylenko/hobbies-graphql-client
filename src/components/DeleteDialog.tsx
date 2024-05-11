@@ -4,8 +4,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store";
-import { confirmDelete, openSnackbar } from "../store/app-slice";
+import { AppDispatch } from "../store";
+import { confirmDelete, deleteItemSelector, openSnackbar } from "../store/app-slice";
 import BookCard from "./books/BookCard";
 import MovieCard from "./movies/MovieCard";
 import { useMutation } from "@apollo/client";
@@ -13,7 +13,7 @@ import { REMOVE_BOOK } from "../queries/books";
 import { REMOVE_MOVIE } from "../queries/movies";
 
 const DeleteDialog = () => {
-    const data = useSelector((state: RootState) => state.deleteData);
+    const { data, userId } = useSelector(deleteItemSelector);
     const dispatch: AppDispatch = useDispatch();
 
     const query = data?.__typename === "Book" ? REMOVE_BOOK : REMOVE_MOVIE;
@@ -32,7 +32,7 @@ const DeleteDialog = () => {
     });
 
     const handleConfirm = () => {
-        removeItem({ variables: { id: data?.id } });
+        removeItem({ variables: { id: data?.id, userId } });
         dispatch(confirmDelete(null));
         dispatch(openSnackbar({ message: `Deleted: ${data?.title}`, severity: "success" }));
     }

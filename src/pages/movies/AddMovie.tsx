@@ -44,7 +44,7 @@ const AddMovie = () => {
     }, [data, error, dispatch]);
 
     const handleSubmit = (formData: Movie) => {
-        createMovie({ variables: { movieContent: { userId, ...formData } } });
+        createMovie({ variables: {userId, movieContent: formData } });
     };
 
     return <MovieForm onSubmit={handleSubmit} />;

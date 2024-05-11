@@ -44,7 +44,7 @@ const AddBook = () => {
     }, [data, error, dispatch]);
 
     const handleSubmit = (formData: Book) => {
-        createBook({ variables: { bookContent: { userId, ...formData } } });
+        createBook({ variables: { userId, bookContent: formData } });
     };
 
     return <BookForm onSubmit={handleSubmit} />;

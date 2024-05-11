@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFragment, useMutation } from "@apollo/client";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
 import { openSnackbar } from "../../store/app-slice";
 import MovieForm from "../../components/movies/MovieForm";
 import { UPDATE_MOVIE, UPDATE_MOVIE_FRAGMENT } from "../../queries/movies";
@@ -12,6 +12,7 @@ const EditMovie = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
+    const userId = useSelector((state: RootState) => state.userId);
 
     const { data } = useFragment<Movie>({
         from: { __typename: "Movie", id },
@@ -42,7 +43,7 @@ const EditMovie = () => {
     }, [result, error, dispatch]);
 
     const handleSubmit = (formData: Movie) => {
-        updateMovie({ variables: { id, movieContent: formData } });
+        updateMovie({ variables: { id, userId, movieContent: formData } });
     };
 
     return <MovieForm data={data} onSubmit={handleSubmit} />;

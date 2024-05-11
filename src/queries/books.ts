@@ -24,8 +24,8 @@ export const CREATE_BOOK_FRAGMENT = gql`
 `;
 
 export const CREATE_BOOK = gql`
-    mutation CreateBook($bookContent: CreateBookContent!) {
-        createBook(bookContent: $bookContent) {
+    mutation CreateBook($userId: ID!, $bookContent: BookContent!) {
+        createBook(userId: $userId, bookContent: $bookContent) {
             ...CreateBookFragment
         }
     }
@@ -42,8 +42,8 @@ export const UPDATE_BOOK_FRAGMENT = gql`
 `;
 
 export const UPDATE_BOOK = gql`
-    mutation UpdateBook($id: ID!, $bookContent: UpdateBookContent!) {
-        updateBook(id: $id, bookContent: $bookContent) {
+    mutation UpdateBook($id: ID!, $userId: ID!, $bookContent: BookContent!) {
+        updateBook(id: $id, userId: $userId, bookContent: $bookContent) {
             ...UpdateBookFragment
         }
     }
@@ -51,8 +51,8 @@ export const UPDATE_BOOK = gql`
 `;
 
 export const REMOVE_BOOK = gql`
-    mutation deleteBook($id: ID!) {
-        deleteBook(id: $id) {
+    mutation deleteBook($id: ID!, $userId: ID!) {
+        deleteBook(id: $id, userId: $userId) {
             id
         }
     }
