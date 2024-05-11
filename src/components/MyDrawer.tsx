@@ -8,6 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import ListItemIcon from "@mui/material/ListItemIcon/ListItemIcon";
 import HomeIcon from '@mui/icons-material/Home';
+import PeopleIcon from '@mui/icons-material/People';
 import BookIcon from '@mui/icons-material/MenuBook';
 import MovieIcon from '@mui/icons-material/LocalMovies';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -70,6 +71,7 @@ const MyDrawer = ({ open, onClose }: Props) => {
                 {isAuthenticated ?
                     <List>
                         <LinkedListItem text="Home" path="" icon={<HomeIcon />} />
+                        <LinkedListItem text="People" path="people" icon={<PeopleIcon />} />
                         <LinkedListItem text="Books" path="books" icon={<BookIcon  />} />
                         <LinkedListItem text="Movies" path="movies" icon={<MovieIcon />} />
                         <LinkedListItem text="Error" path="42" icon={<ErrorIcon />} />
@@ -78,6 +80,7 @@ const MyDrawer = ({ open, onClose }: Props) => {
                     </List> :
                     <List>
                         <LinkedListItem text="Home" path="" icon={<HomeIcon />} />
+                        <LinkedListItem text="People" path="people" icon={<PeopleIcon />} />
                         <LinkedListItem text="Error" path="42" icon={<ErrorIcon />} />
                         <Divider />
                         <LinkedListItem text="Login" path="login"  icon={<LoginIcon />} />

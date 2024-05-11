@@ -6,7 +6,7 @@ import EditIcon from "@mui/icons-material/EditOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import { useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
 import { confirmDelete, openSnackbar, queryItemsSelector } from "../../store/app-slice";
@@ -25,8 +25,12 @@ interface Data {
 }
 
 const Movies = () => {
-    const { userId, search} = useSelector(queryItemsSelector);
-    const { error, data } = useQuery<Data, Vars>(GET_MOVIES, { variables: { userId } });
+    const { userId, search } = useSelector(queryItemsSelector);
+    const [queryParams] = useSearchParams();
+    const externalUserId = queryParams.get("user");
+    const targetUserId = externalUserId ?? userId;
+
+    const { error, data } = useQuery<Data, Vars>(GET_MOVIES, { variables: { userId: targetUserId } });
     const dispatch: AppDispatch = useDispatch();
     const scrollCondition = useInfiniteScroll(search);
     const movies = useSearch<Movie>(data?.movies, ["title", "year", "notes", "completed"], search);
@@ -40,34 +44,32 @@ const Movies = () => {
     const handleDelete = (movie: Movie) => () => dispatch(confirmDelete(movie));
 
     return (
-        <>
-            <Grid
-                container
-                component="main"
-                spacing={2}
-                sx={{ p: 2, backgroundColor: "#f4f4ff"}}
-            >
-                {movies
-                    .filter(scrollCondition)
-                    .map((movie) => (
-                        <Grid key={movie.id} item xs={12} sm={6} md={4}>
-                            <Card variant="outlined">
-                                <MovieCard {...movie} />
-                                <CardActions >
-                                    <Link to={`/movies/${movie.id}`}>
-                                        <IconButton color="primary" size="small" sx={{ ml: "auto" }}>
-                                            <EditIcon />
-                                        </IconButton>
-                                    </Link>
-                                    <IconButton onClick={handleDelete(movie)} color="primary" size="small">
-                                        <DeleteIcon />
+        <Grid
+            container
+            component="main"
+            spacing={2}
+            sx={{ p: 2, backgroundColor: "#f4f4ff" }}
+        >
+            {movies
+                .filter(scrollCondition)
+                .map((movie) => (
+                    <Grid key={movie.id} item xs={12} sm={6} md={4}>
+                        <Card variant="outlined">
+                            <MovieCard {...movie} />
+                            {targetUserId === userId && (<CardActions >
+                                <Link to={`/movies/${movie.id}`}>
+                                    <IconButton color="primary" size="small" sx={{ ml: "auto" }}>
+                                        <EditIcon />
                                     </IconButton>
-                                </CardActions>
-                            </Card>
-                        </Grid>
-                    ))}
-            </Grid>
-        </>
+                                </Link>
+                                <IconButton onClick={handleDelete(movie)} color="primary" size="small">
+                                    <DeleteIcon />
+                                </IconButton>
+                            </CardActions>)}
+                        </Card>
+                    </Grid>
+                ))}
+        </Grid>
     );
 };
 

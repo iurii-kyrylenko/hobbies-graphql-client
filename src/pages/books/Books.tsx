@@ -6,7 +6,7 @@ import EditIcon from "@mui/icons-material/EditOutlined";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import { useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
 import { confirmDelete, openSnackbar, queryItemsSelector } from "../../store/app-slice";
@@ -17,7 +17,7 @@ import BookCard from "../../components/books/BookCard";
 import { Book } from "../../types";
 
 interface Vars {
-    userId: string;
+    userId: string | null;
 }
 
 interface Data {
@@ -25,8 +25,13 @@ interface Data {
 }
 
 const Books = () => {
-    const { userId, search} = useSelector(queryItemsSelector);
-    const { error, data } = useQuery<Data, Vars>(GET_BOOKS, { variables: { userId } });
+    const { userId, search } = useSelector(queryItemsSelector);
+
+    const [queryParams] = useSearchParams();
+    const externalUserId = queryParams.get("user");
+    const targetUserId = externalUserId ?? userId;
+
+    const { error, data } = useQuery<Data, Vars>(GET_BOOKS, { variables: { userId: targetUserId } });
     const dispatch: AppDispatch = useDispatch();
     const scrollCondition = useInfiniteScroll(search);
     const books = useSearch<Book>(data?.books, ["author", "title", "mode", "completed"], search);
@@ -40,34 +45,32 @@ const Books = () => {
     const handleDelete = (book: Book) => () => dispatch(confirmDelete(book));
 
     return (
-        <>
-            <Grid
-                container
-                component="main"
-                spacing={2}
-                sx={{ p: 2, backgroundColor: "#f4f4ff"}}
-            >
-                {books
-                    .filter(scrollCondition)
-                    .map((book) => (
-                        <Grid key={book.id} item xs={12} sm={6} md={4}>
-                            <Card variant="outlined">
-                                <BookCard {...book} />
-                                <CardActions >
-                                    <Link to={`/books/${book.id}`}>
-                                        <IconButton color="primary" size="small" sx={{ ml: "auto" }}>
-                                            <EditIcon />
-                                        </IconButton>
-                                    </Link>
-                                    <IconButton onClick={handleDelete(book)} color="primary" size="small">
-                                        <DeleteIcon />
+        <Grid
+            container
+            component="main"
+            spacing={2}
+            sx={{ p: 2, backgroundColor: "#f4f4ff" }}
+        >
+            {books
+                .filter(scrollCondition)
+                .map((book) => (
+                    <Grid key={book.id} item xs={12} sm={6} md={4}>
+                        <Card variant="outlined">
+                            <BookCard {...book} />
+                            {targetUserId === userId && (<CardActions >
+                                <Link to={`/books/${book.id}`}>
+                                    <IconButton color="primary" size="small" sx={{ ml: "auto" }}>
+                                        <EditIcon />
                                     </IconButton>
-                                </CardActions>
-                            </Card>
-                        </Grid>
-                    ))}
-            </Grid>
-        </>
+                                </Link>
+                                <IconButton onClick={handleDelete(book)} color="primary" size="small">
+                                    <DeleteIcon />
+                                </IconButton>
+                            </CardActions>)}
+                        </Card>
+                    </Grid>
+                ))}
+        </Grid>
     );
 };
 

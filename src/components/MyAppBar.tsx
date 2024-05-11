@@ -6,7 +6,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useMemo } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import MySearch from "./MySearch";
@@ -18,22 +18,25 @@ interface Props {
 const MyAppBar = ({ onDrawerClick }: Props) => {
     const location = useLocation();
     const { id } = useParams();
+    const user = useSelector((state: RootState) => state.userName);
+    const [queryParams] = useSearchParams();
+
     const [pageName, isSearch] = useMemo(() => {
+        const ext = queryParams.get("user");
         let pageName = "My Hobbies";
         let isSearch = false;
         switch (location.pathname) {
             case "/login": pageName = "Login"; break;
-            case "/books": pageName = "My Books"; isSearch = true; break;
+            case "/people": pageName = "People"; break;
+            case "/books": pageName = ext ? "User's Books" : "My Books"; isSearch = true; break;
             case "/books/new": pageName = "Add Book"; break;
             case `/books/${id}`: pageName = "Edit Book"; break;
-            case "/movies": pageName = "My Movies"; isSearch = true; break;
+            case "/movies": pageName = ext ? "User's Movies" : "My Movies"; isSearch = true; break;
             case "/movies/new": pageName = "Add Movie"; break;
             case `/movies/${id}`: pageName = "Edit Movie"; break;
         }
         return [pageName, isSearch];
-    }, [location.pathname, id]);
-
-    const user = useSelector((state: RootState) => state.userName);
+    }, [location.pathname, id, queryParams]);
 
     return (
         <AppBar component="nav" position="sticky">
