@@ -1,8 +1,9 @@
 import { Route, createRoutesFromElements, createBrowserRouter } from "react-router-dom";
 import ErrorBoundary from "./pages/ErrorBoundary";
 import Layout from "./pages/Layout";
-import Login from "./pages/Login";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Books from "./pages/books/Books";
 import Movies from "./pages/movies/Movies";
 import AddBook from "./pages/books/AddBook";
@@ -16,6 +17,7 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route index Component={Home} />
         <Route path="people" Component={People} />
         <Route path="login" Component={Login} />
+        <Route path="register" Component={Register} />
         <Route path="books" Component={Books} />
         <Route path="books/new" Component={AddBook} />
         <Route path="books/:id" Component={EditBook} />

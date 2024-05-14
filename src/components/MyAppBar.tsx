@@ -23,11 +23,12 @@ const MyAppBar = ({ onDrawerClick }: Props) => {
 
     const [pageName, isSearch] = useMemo(() => {
         const ext = queryParams.get("user");
-        let pageName = "My Hobbies";
+        let pageName = "MY HOBBIES";
         let isSearch = false;
         switch (location.pathname) {
             case "/login": pageName = "Login"; break;
-            case "/people": pageName = "People"; break;
+            case "/register": pageName = "Signup"; break;
+            case "/people": pageName = "People"; isSearch = true; break;
             case "/books": pageName = ext ? "User's Books" : "My Books"; isSearch = true; break;
             case "/books/new": pageName = "Add Book"; break;
             case `/books/${id}`: pageName = "Edit Book"; break;

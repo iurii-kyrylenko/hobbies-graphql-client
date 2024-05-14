@@ -7,10 +7,11 @@ import MovieIcon from '@mui/icons-material/LocalMovies';
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store";
 import { GET_PEOPLE } from "../queries/people";
 import { openSnackbar } from "../store/app-slice";
+import { useSearch } from "../hooks/use-search";
 
 interface Data {
     people: {
@@ -24,11 +25,16 @@ interface Data {
 
 const People = () => {
     const dispatch: AppDispatch = useDispatch();
+    const search = useSelector((state: RootState) => state.search);
+
     const { data } = useQuery<Data>(GET_PEOPLE, {
         onError(error) {
             dispatch(openSnackbar({ message: error.message, severity: "error" }));
         },
+        fetchPolicy: "network-only", // to have recent data
     });
+
+    const people = useSearch(data?.people, ["name"], search);
 
     return (
         <Grid
@@ -37,7 +43,7 @@ const People = () => {
             spacing={2}
             sx={{ p: 2, backgroundColor: "#f4f4ff" }}
         >
-            {data?.people
+            {people
                 .map((user) => (
                     <Grid key={user.id} item xs={12} sm={6} md={4}>
                         <Card variant="outlined">

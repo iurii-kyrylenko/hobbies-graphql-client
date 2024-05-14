@@ -1,14 +1,9 @@
-## MyHobbies application: React | Redux | ReactRouter | MUI | Apollo GraphQL | Vite
+## GraphQL Client for MyHobbies Application
 
-Server part: https://github.com/iurii-kyrylenko/hobbies-graphql
+Based on: React | Redux | ReactRouter | MUI | Apollo GraphQL | Vite
 
-```
-1. Install dependencies:
-> npm i
+Client live demo: https://hobbies-graphql-client.onrender.com
 
-2. Run dev server:
-> npm ren dev
+Server project: https://github.com/iurii-kyrylenko/hobbies-graphql
 
-4. Navigate to:
-> http://localhost:5173
-```
+Server landing page: https://hobbies-graphql.onrender.com
