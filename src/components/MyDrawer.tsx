@@ -11,9 +11,9 @@ import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 import BookIcon from '@mui/icons-material/MenuBook';
 import MovieIcon from '@mui/icons-material/LocalMovies';
-import ErrorIcon from '@mui/icons-material/Error';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
+import SettingsIcon from '@mui/icons-material/Settings';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { ReactNode } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -75,14 +75,13 @@ const MyDrawer = ({ open, onClose }: Props) => {
                         <LinkedListItem text="People" path="people" icon={<PeopleIcon />} />
                         <LinkedListItem text="Books" path="books" icon={<BookIcon  />} />
                         <LinkedListItem text="Movies" path="movies" icon={<MovieIcon />} />
-                        <LinkedListItem text="Error" path="42" icon={<ErrorIcon />} />
                         <Divider />
+                        <LinkedListItem text="Settings" path="settings" icon={<SettingsIcon />} />
                         <LogoutListItem text="Logout" icon={<LogoutIcon />} />
                     </List> :
                     <List>
                         <LinkedListItem text="Home" path="" icon={<HomeIcon />} />
                         <LinkedListItem text="People" path="people" icon={<PeopleIcon />} />
-                        <LinkedListItem text="Error" path="42" icon={<ErrorIcon />} />
                         <Divider />
                         <LinkedListItem text="Login" path="login"  icon={<LoginIcon />} />
                         <LinkedListItem text="Signup" path="register"  icon={<PersonAddIcon />} />

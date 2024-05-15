@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import { login, openSnackbar } from "../store/app-slice";
+import { LOGIN } from "../queries/users";
 
 interface Vars {
     name: string;
@@ -18,12 +19,6 @@ interface Vars {
 interface Data {
     login: string;
 }
-
-const LOGIN = gql`
-    query login($name: String!, $password: String!) {
-        login(name: $name, password: $password)
-    }
-`;
 
 const Login = () => {
     const [formData, setFormData] = useState({

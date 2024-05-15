@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
-import { GET_PEOPLE } from "../queries/people";
+import { GET_PEOPLE } from "../queries/users";
 import { openSnackbar } from "../store/app-slice";
 import { useSearch } from "../hooks/use-search";
 
@@ -17,6 +17,8 @@ interface Data {
     people: {
         id: string;
         name: string;
+        shareBooks: boolean;
+        shareMovies: boolean;
         books: number;
         movies: number;
         total: number;
@@ -49,12 +51,12 @@ const People = () => {
                         <Card variant="outlined">
                             <CardContent>
                                 <Typography variant="h6">{user.name}</Typography>
-                                {user.books > 0 && (<Link to={`/books?user=${user.id}`}>
+                                {user.shareBooks && user.books > 0 && (<Link to={`/books?user=${user.id}`}>
                                     <Button sx={{ m: 0.5 }} variant="outlined" startIcon={<BookIcon />}>
                                         Books: {user.books}
                                     </Button>
                                 </Link>)}
-                                {user.movies > 0 && (<Link to={`/movies?user=${user.id}`}>
+                                {user.shareMovies && user.movies > 0 && (<Link to={`/movies?user=${user.id}`}>
                                     <Button sx={{ m: 0.5 }} variant="outlined" startIcon={<MovieIcon />}>
                                         Movies: {user.movies}
                                     </Button>

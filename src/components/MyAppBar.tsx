@@ -35,6 +35,7 @@ const MyAppBar = ({ onDrawerClick }: Props) => {
             case "/movies": pageName = ext ? "User's Movies" : "My Movies"; isSearch = true; break;
             case "/movies/new": pageName = "Add Movie"; break;
             case `/movies/${id}`: pageName = "Edit Movie"; break;
+            case "/settings": pageName = "My Settings"; break;
         }
         return [pageName, isSearch];
     }, [location.pathname, id, queryParams]);

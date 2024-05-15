@@ -6,8 +6,9 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import { login, openSnackbar } from "../store/app-slice";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
+import { REGISTER } from "../queries/users";
 
 interface Data {
     register: string;
@@ -15,7 +16,7 @@ interface Data {
 
 interface Vars {
     captchaToken: string | null;
-    userData: {
+    registerData: {
         name: string;
         email: string;
         password: string;
@@ -31,12 +32,6 @@ interface FormData {
     confirmation: string;
     recaptchaToken: string | null;
 }
-
-const REGISTER = gql`
-    mutation register($captchaToken: String!, $userData: UserData!) {
-        register(captchaToken: $captchaToken, userData: $userData)
-    }
-`;
 
 const Register = () => {
     const navigate = useNavigate();
@@ -88,7 +83,7 @@ const Register = () => {
         createUser({
             variables: {
                 captchaToken: formData.recaptchaToken,
-                userData: {
+                registerData: {
                     name: formData.name,
                     email: formData.email,
                     password: formData.password,

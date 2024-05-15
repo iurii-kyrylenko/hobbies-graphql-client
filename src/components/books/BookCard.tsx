@@ -7,13 +7,11 @@ const BookCard = ({ author, title, mode, completed }: Book) => {
     return (
         <CardContent>
             <Box sx={{ overflowY: "auto"}}>
-                <Typography sx={{ fontSize: 18 }}>{title}</Typography>
+                <Typography sx={{ fontSize: 14 }}>{title}</Typography>
             </Box>
-            <p />
-           <Typography sx={{ fontSize: 16 }} color="Highlight">by {author}</Typography>
-            <p />
-            <Typography sx={{ fontSize: 14 }} color="text.secondary">
-                {mode} | {completed?.substring(0,10)}
+           <Typography sx={{ fontSize: 13 }} color="Highlight">by {author}</Typography>
+            <Typography sx={{ fontSize: 12 }} color="text.secondary">
+                {mode} | Read on {completed?.substring(0,10)}
             </Typography>
         </CardContent>
     );

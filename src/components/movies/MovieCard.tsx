@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useQuery } from "@apollo/client";
+import Box from "@mui/material/Box";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -21,18 +22,16 @@ const MovieCard = ({ title, year, notes, imdbId, completed }: Movie) => {
 
     return (
         <CardContent>
-            <pre style={{
-                // whiteSpace: "pre-wrap",
-                overflowY: "auto",
-            }}>
-                {JSON.stringify({ title, year, notes, imdbId, completed }, null, 2)}
-            </pre>
+            <Box sx={{ mx: 2, mb: 1 }}>
+                <Typography sx={{ fontSize: 14 }} color="Highlight">{title}</Typography>
+                <Typography sx={{ fontSize: 13 }} color="text.secondary">Release date: {year}</Typography>
+                <Typography sx={{ fontSize: 13, fontStyle: "italic" }}>{notes}</Typography>
+                <Typography sx={{ fontSize: 13 }} color="text.secondary">Watched on {completed?.substring(0, 10)}</Typography>
+            </Box>
             {imdbId && (
                 <Accordion expanded={expanded} onChange={handleChange}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography sx={{ fontSize: 14 }} color="text.secondary">
-                            Details...
-                        </Typography>
+                        <Typography sx={{ fontSize: 13 }} color="text.secondary">Details...</Typography>
                     </AccordionSummary>
                     {expanded && (
                         <AccordionDetails>

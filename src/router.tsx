@@ -11,6 +11,7 @@ import EditBook from "./pages/books/EditBook";
 import AddMovie from "./pages/movies/AddMovie";
 import EditMovie from "./pages/movies/EditMovie";
 import People from "./pages/People";
+import Settings from "./pages/Settings";
 
 const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" Component={Layout} ErrorBoundary={ErrorBoundary}>
@@ -24,6 +25,7 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route path="movies" Component={Movies} />
         <Route path="movies/new" Component={AddMovie} />
         <Route path="movies/:id" Component={EditMovie} />
+        <Route path="settings" Component={Settings} />
      </Route>
 ));
 
