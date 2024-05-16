@@ -23,7 +23,7 @@ const MovieCard = ({ title, year, notes, imdbId, completed }: Movie) => {
     return (
         <CardContent>
             <Box sx={{ mx: 2, mb: 1 }}>
-                <Typography sx={{ fontSize: 14 }} color="Highlight">{title}</Typography>
+                <Typography sx={{ fontSize: 14, fontWeight: 500, color: "#1565c0" }}>{title}</Typography>
                 <Typography sx={{ fontSize: 13 }} color="text.secondary">Release date: {year}</Typography>
                 <Typography sx={{ fontSize: 13, fontStyle: "italic" }}>{notes}</Typography>
                 <Typography sx={{ fontSize: 13 }} color="text.secondary">Watched on {completed?.substring(0, 10)}</Typography>
