@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation, useQuery } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../store";
 import { openSnackbar } from "../store/app-slice";
 import SettingsForm, { SettingsData, SubmitData } from "../components/SettingsForm";
@@ -17,6 +18,7 @@ interface QueryVars {
 const Settings = () => {
     const userId = useSelector((state: RootState) => state.userId);
     const dispatch: AppDispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { data } = useQuery<QueryData, QueryVars>(GET_USER, {
         variables: { id: userId },
@@ -30,6 +32,7 @@ const Settings = () => {
             dispatch(openSnackbar({ message: error.message, severity: "error" })); 
         }
         if (updateResult) {
+            navigate("/");
             dispatch(openSnackbar({ message: "Settings updated!", severity: "success" })); 
         }
     }, [updateResult, error]);

@@ -45,13 +45,13 @@ const Home = () => {
             Change log:
             <ul>
                 <li>
+                    May 18, 2024: Wire up the <a href="https://developers.google.com/books/docs/overview" target="_blank">Google Books API</a> service to obtain the book info.
+                </li>
+                <li>
                     May 14, 2024: Deploy new GraphQL projects on <a href="https://render.com/" target="_blank">Render</a>.
                 </li>
                 <li>
                     Nov 11, 2022: Deploy on <a href="https://render.com/" target="_blank">Render</a> (free hosting plan).
-                </li>
-                <li>
-                    Sep 22, 2020: Migrate database from <a href="https://mlab.com" target="_blank">mLab</a> to <a href="https://www.mongodb.com/cloud/atlas" target="_blank">MongoDB Atlas</a>.
                 </li>
                 <li>
                     Sep 22, 2020: Migrate database from <a href="https://mlab.com" target="_blank">mLab</a> to <a href="https://www.mongodb.com/cloud/atlas" target="_blank">MongoDB Atlas</a>.

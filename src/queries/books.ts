@@ -12,6 +12,15 @@ export const GET_BOOKS = gql`
     }
 `;
 
+export const BOOK_INFO = gql`
+    query getBookInfo($author: String!, $title: String!) {
+        bookInfo(author: $author, title: $title) {
+            thumbnail
+            description
+        }
+    }
+`;
+
 export const CREATE_BOOK_FRAGMENT = gql`
     fragment CreateBookFragment on Book {
         id

@@ -13,9 +13,8 @@ export const GET_MOVIES = gql`
     }
 `;
 
-
 export const MOVIE_INFO = gql`
-    query getMovies($imdbId: ID!) {
+    query getMovieInfo($imdbId: ID!) {
         movieInfo(id: $imdbId) {
             id
             plot
