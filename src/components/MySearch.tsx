@@ -3,7 +3,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
-import Divider from "@mui/material/Divider";
 import { grey } from "@mui/material/colors";
 import { alpha, styled } from "@mui/material/styles";
 import { useState, KeyboardEvent, ChangeEvent } from 'react';
@@ -21,9 +20,9 @@ const Search = styled("div")(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    marginLeft: 8,
     color: "inherit",
     "& .MuiInputBase-input": {
+        textAlign: "center",
         transition: theme.transitions.create("width"),
         [theme.breakpoints.up("sm")]: {
             width: "12ch",
@@ -65,14 +64,17 @@ const MySearch = () => {
                 onChange={handleChange}
                 value={value}
                 onKeyDown={handleKeyDown}
+                startAdornment={
+                    <InputAdornment position="start">
+                        <IconButton onClick={handleSearchOff} edge="end">
+                            <SearchOffIcon sx={{ color: grey[200] }} />
+                        </IconButton>
+                    </InputAdornment>
+                }
                 endAdornment={
                     <InputAdornment position="end">
-                        <Divider sx={{ height: 28 }} orientation="vertical" />
-                        <IconButton onClick={handleSearch} edge="end">
+                        <IconButton onClick={handleSearch} edge="start">
                             <SearchIcon sx={{ color: grey[200] }} />
-                        </IconButton>
-                        <IconButton onClick={handleSearchOff}>
-                            <SearchOffIcon sx={{ color: grey[200] }} />
                         </IconButton>
                     </InputAdornment>
                 }
