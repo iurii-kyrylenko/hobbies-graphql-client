@@ -1,10 +1,14 @@
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from '@mui/icons-material/Clear';
 import { alpha, styled } from "@mui/material/styles";
-import { useState, KeyboardEvent, ChangeEvent } from 'react';
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import grey from "@mui/material/colors/grey";
+import { useState, ChangeEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
-import { search  } from "../store/app-slice";
+import { search } from "../store/app-slice";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -43,19 +47,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
+
 const MySearch = () => {
     const storedSearch = useSelector((state: RootState) => state.search);
     const [value, setValue] = useState<string>(storedSearch);
     const dispatch: AppDispatch = useDispatch();
 
-    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-        if(e.key === "Enter") {
-            dispatch(search(value));
-        }
-    };
-
     const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
         setValue(e.currentTarget.value);
+
+    const handleClear = () => {
+        setValue("");
+        dispatch(search(""));
+    }
+
+    useEffect(() => {
+        const timer = setTimeout(() => dispatch(search(value)), 800);
+        return () => clearTimeout(timer);
+    }, [value]);
 
     return (
         <Search>
@@ -64,11 +73,17 @@ const MySearch = () => {
             </SearchIconWrapper>
             <StyledInputBase
                 placeholder="Search…"
+                autoComplete="off"
                 inputProps={{ "aria-label": "search", id: "search" }}
-                type="search"
                 onChange={handleChange}
                 value={value}
-                onKeyDown={handleKeyDown}
+                endAdornment={value &&
+                    <InputAdornment position="end">
+                        <IconButton onClick={handleClear} edge="start">
+                            <ClearIcon sx={{ fontSize: 20, color: grey[200] }} />
+                        </IconButton>
+                    </InputAdornment>
+                }
             />
         </Search>
     );
