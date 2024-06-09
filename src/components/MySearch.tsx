@@ -1,17 +1,13 @@
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import SearchOffIcon from '@mui/icons-material/SearchOff';
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import Divider from "@mui/material/Divider";
-import { grey } from "@mui/material/colors";
 import { alpha, styled } from "@mui/material/styles";
 import { useState, KeyboardEvent, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
-import { search } from "../store/app-slice";
+import { search  } from "../store/app-slice";
 
 const Search = styled("div")(({ theme }) => ({
+    position: "relative",
     [theme.breakpoints.down("sm")]: { width: "40%" },
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -20,10 +16,23 @@ const Search = styled("div")(({ theme }) => ({
     },
 }));
 
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+}));
+
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    marginLeft: 8,
     color: "inherit",
+    width: "100%",
     "& .MuiInputBase-input": {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create("width"),
         [theme.breakpoints.up("sm")]: {
             width: "12ch",
@@ -34,23 +43,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-
 const MySearch = () => {
     const storedSearch = useSelector((state: RootState) => state.search);
     const [value, setValue] = useState<string>(storedSearch);
     const dispatch: AppDispatch = useDispatch();
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") {
+        if(e.key === "Enter") {
             dispatch(search(value));
         }
-    };
-
-    const handleSearch = () => dispatch(search(value));
-
-    const handleSearchOff = () => {
-        setValue("");
-        dispatch(search(""));
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
@@ -58,24 +59,16 @@ const MySearch = () => {
 
     return (
         <Search>
+            <SearchIconWrapper>
+                <SearchIcon />
+            </SearchIconWrapper>
             <StyledInputBase
                 placeholder="Search…"
-                autoComplete='off'
                 inputProps={{ "aria-label": "search", id: "search" }}
+                type="search"
                 onChange={handleChange}
                 value={value}
                 onKeyDown={handleKeyDown}
-                endAdornment={
-                    <InputAdornment position="end">
-                        <Divider sx={{ height: 28 }} orientation="vertical" />
-                        <IconButton onClick={handleSearch} edge="end">
-                            <SearchIcon sx={{ color: grey[200] }} />
-                        </IconButton>
-                        <IconButton onClick={handleSearchOff}>
-                            <SearchOffIcon sx={{ color: grey[200] }} />
-                        </IconButton>
-                    </InputAdornment>
-                }
             />
         </Search>
     );
