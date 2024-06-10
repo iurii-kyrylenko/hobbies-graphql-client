@@ -23,10 +23,10 @@ const AddBook = () => {
                             fragment: CREATE_BOOK_FRAGMENT,
                         });
                         return [newBookRef, ...existingBooks];
-                    }
+                    },
                 },
             });
-        }
+        },
     });
 
     useEffect(() => {

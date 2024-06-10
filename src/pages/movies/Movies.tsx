@@ -30,7 +30,11 @@ const Movies = () => {
     const externalUserId = queryParams.get("user");
     const targetUserId = externalUserId ?? userId;
 
-    const { error, data } = useQuery<Data, Vars>(GET_MOVIES, { variables: { userId: targetUserId } });
+    const { error, data } = useQuery<Data, Vars>(GET_MOVIES, {
+        variables: { userId: targetUserId },
+        fetchPolicy: !userId || targetUserId === userId ? "cache-first" : "network-only",
+    });
+
     const dispatch: AppDispatch = useDispatch();
     const scrollCondition = useInfiniteScroll(search);
     const movies = useSearch<Movie>(data?.movies, ["title", "year", "notes", "completed"], search);

@@ -26,12 +26,15 @@ interface Data {
 
 const Books = () => {
     const { userId, search } = useSelector(queryItemsSelector);
-
     const [queryParams] = useSearchParams();
     const externalUserId = queryParams.get("user");
     const targetUserId = externalUserId ?? userId;
 
-    const { error, data } = useQuery<Data, Vars>(GET_BOOKS, { variables: { userId: targetUserId } });
+    const { error, data } = useQuery<Data, Vars>(GET_BOOKS, {
+        variables: { userId: targetUserId },
+        fetchPolicy: !userId || targetUserId === userId ? "cache-first" : "network-only",
+    });
+
     const dispatch: AppDispatch = useDispatch();
     const scrollCondition = useInfiniteScroll(search);
     const books = useSearch<Book>(data?.books, ["author", "title", "mode", "completed"], search);

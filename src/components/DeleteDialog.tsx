@@ -8,7 +8,7 @@ import { AppDispatch } from "../store";
 import { confirmDelete, deleteItemSelector, openSnackbar } from "../store/app-slice";
 import BookCard from "./books/BookCard";
 import MovieCard from "./movies/MovieCard";
-import { useMutation } from "@apollo/client";
+import { Reference, useMutation } from "@apollo/client";
 import { REMOVE_BOOK } from "../queries/books";
 import { REMOVE_MOVIE } from "../queries/movies";
 
@@ -22,13 +22,16 @@ const DeleteDialog = () => {
             dispatch(openSnackbar({ message: error.message, severity: "error" }));
         },
         update (cache) {
-            const normalizedId = cache.identify({
-                id: data?.id,
-                __typename: data?.__typename
+            const items = data?.__typename === "Book" ? "books" : "movies";
+            cache.modify({
+                fields: {
+                    [items](existingItems: readonly Reference[], { readField }) {
+                        return existingItems.filter((itemRef) =>
+                            data?.id !== readField("id", itemRef));
+                    },
+                },
             });
-            cache.evict({ id: normalizedId });
-            cache.gc();
-        }
+        },
     });
 
     const handleConfirm = () => {
