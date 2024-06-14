@@ -23,9 +23,9 @@ import { logout, openSnackbar } from "../store/app-slice";
 
 const LinkedListItem = ({ text, path, icon }: { text: string; path: string, icon: ReactNode }) => (
     <ListItem key={text} disablePadding>
-        <ListItemButton sx={{ textAlign: "left" }}>
+        <ListItemButton component={Link} to={path} sx={{ textAlign: "left" }}>
             <ListItemIcon>{icon}</ListItemIcon>
-            <Link to={path}><ListItemText primary={text} /></Link>
+            <ListItemText primary={text} />
         </ListItemButton>
     </ListItem>
 );
