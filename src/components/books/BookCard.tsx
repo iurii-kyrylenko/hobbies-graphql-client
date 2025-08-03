@@ -13,7 +13,7 @@ import { useQuery } from "@apollo/client";
 import { openSnackbar } from "../../store/app-slice";
 import { BOOK_INFO } from "../../queries/books";
 
-const BookCard = ({ author, title, mode, completed }: Book) => {
+const BookCard = ({ author, title, mode, completed, googleBookId }: Book) => {
     const [expanded, setExpanded] = useState(false);
 
     const handleChange = () => {
@@ -35,7 +35,7 @@ const BookCard = ({ author, title, mode, completed }: Book) => {
                 </AccordionSummary>
                 {expanded && (
                     <AccordionDetails>
-                        <BookInfo author={author} title={title} />
+                        <BookInfo author={author} title={title} googleBookId={googleBookId} />
                     </AccordionDetails>
                 )}
             </Accordion>)}
@@ -46,6 +46,7 @@ const BookCard = ({ author, title, mode, completed }: Book) => {
 interface Props {
     author: string;
     title: string;
+    googleBookId?: string;
 }
 
 interface Data {
@@ -55,11 +56,11 @@ interface Data {
     };
 }
 
-const BookInfo = ({ author, title }: Props) => {
+const BookInfo = ({ author, title, googleBookId }: Props) => {
     const dispatch: AppDispatch = useDispatch();
 
     const { data } = useQuery<Data>(BOOK_INFO, {
-        variables: { author, title },
+        variables: { author, title, googleBookId },
         onError(error) {
             dispatch(openSnackbar({ message: error.message, severity: "error" }));
         },

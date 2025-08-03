@@ -16,6 +16,7 @@ const BookForm = ({ data, onSubmit }: Props) => {
         title: data?.title ?? "",
         mode: data?.mode ?? Mode.Regular,
         completed: (data?.completed ?? new Date().toISOString()).substring(0, 10),
+        googleBookId: data?.googleBookId ?? "",
     });
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +48,15 @@ const BookForm = ({ data, onSubmit }: Props) => {
                 value={formData.title}
                 onChange={handleChange}
                 required
+                sx={{ mt: 4 }}
+            />
+            <TextField
+                label="Google Book Id"
+                variant="outlined"
+                fullWidth
+                name="googleBookId"
+                value={formData.googleBookId}
+                onChange={handleChange}
                 sx={{ mt: 4 }}
             />
             <TextField

@@ -8,13 +8,14 @@ export const GET_BOOKS = gql`
             title
             mode
             completed
+            googleBookId
         }
     }
 `;
 
 export const BOOK_INFO = gql`
-    query getBookInfo($author: String!, $title: String!) {
-        bookInfo(author: $author, title: $title) {
+    query getBookInfo($author: String!, $title: String!, $googleBookId: String) {
+        bookInfo(author: $author, title: $title, googleBookId: $googleBookId) {
             thumbnail
             description
         }
@@ -29,6 +30,7 @@ export const CREATE_BOOK_FRAGMENT = gql`
         title
         mode
         completed
+        googleBookId
     }
 `;
 
@@ -47,6 +49,7 @@ export const UPDATE_BOOK_FRAGMENT = gql`
         title
         mode
         completed
+        googleBookId
     }
 `;
 

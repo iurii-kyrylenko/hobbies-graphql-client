@@ -11,6 +11,7 @@ export interface Book {
     title?: string;
     mode?: Mode;
     completed?: string;
+    googleBookId?: string;
 }
 
 export interface Movie {
