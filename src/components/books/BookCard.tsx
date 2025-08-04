@@ -69,7 +69,7 @@ const BookInfo = ({ author, title, googleBookId }: Props) => {
         <>
             <img src={data?.bookInfo.thumbnail} />
             <Typography sx={{ fontSize: 14 }} color="text.secondary">
-                {data?.bookInfo.description}
+                <div dangerouslySetInnerHTML={{ __html: data?.bookInfo.description ?? "" }} />
             </Typography>
         </>
     );
